@@ -101,6 +101,8 @@ namespace HomeWork_26
         /// </summary>
         private Account? NotDeposit { get => this.notDeposit; set => this.notDeposit = value; }
 
+        Action<string> Action;
+
         
 
         /// <summary>
@@ -112,12 +114,13 @@ namespace HomeWork_26
             switch (TypeAccount)
             {
                 case "Deposit":
-                    Deposit = new Account<Client>(ID, DepositRate, 0);
+                    Deposit = new Account<Client>(ID, DepositRate, 0);                    
                     break;
                 default:
                     NotDeposit = new Account<Client>(ID, DepositRate, 0);
                     break;
             }
+            Action?.Invoke($"{DateTime.Now.ToShortDateString()} в {DateTime.Now.ToShortTimeString()} клиенту {ID} открыт {TypeAccount}");
         }
 
         
@@ -137,6 +140,7 @@ namespace HomeWork_26
                     NotDeposit = new Account<Client>(ID, DepositRate, Amount);
                     break;
             }
+            Action?.Invoke($"{DateTime.Now.ToShortDateString()} в {DateTime.Now.ToShortTimeString()} клиенту {ID} открыт {TypeAccount} на сумму {Amount}");
         }
 
         private uint GetID()
@@ -148,6 +152,7 @@ namespace HomeWork_26
             }            
             id++;
             File.WriteAllText("_id.txt", id.ToString());
+            Action?.Invoke($"{DateTime.Now.ToShortDateString()} в {DateTime.Now.ToShortTimeString()} создан клиент {id}");
             return id;
         }
 

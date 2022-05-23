@@ -16,7 +16,7 @@ namespace HomeWork_26
         {
             this.name = default;
             this.ID = default;
-            this.depositRate = default;
+            depositRate = default;
             this.deposit = null;
             this.notDeposit = null;
         }
@@ -29,7 +29,7 @@ namespace HomeWork_26
         {
             this.name = Name;
             this.ID = GetID();
-            this.depositRate = 3;
+            depositRate = 3;
             this.deposit = null;
             this.notDeposit = null;
 
@@ -39,15 +39,9 @@ namespace HomeWork_26
         /// </summary>
         /// <param name="Name">Имя клиента</param>
         /// <param name="TapeAccount">Тип счета</param>
-        public Client(string Name, string TapeAccount)
+        public Client(string Name, string TapeAccount): this(Name)
         {
-            this.name = Name;
-            this.ID = GetID();
-            this.depositRate = 3;
-            this.deposit = null;
-            this.notDeposit = null;
             OpenAccount(TapeAccount);
-
         }
 
         /// <summary>
@@ -56,23 +50,17 @@ namespace HomeWork_26
         /// <param name="Name">Имя клиента</param>
         /// <param name="TapeAccount">Тип счета</param>
         /// <param name="Amount">Сумма пополнения</param>
-        public Client(string Name, string TapeAccount, double Amount)
-        {
-            this.name = Name;
-            this.ID = GetID();
-            this.depositRate = 3;
-            this.deposit = null;
-            this.notDeposit = null;
+        public Client(string Name, string TapeAccount, double Amount): this(Name)
+        {            
             OpenAccount(TapeAccount, Amount);
-
         }
 
         /// <summary>
         /// Используемые поля
         /// </summary>
-        private string name;
+        private string? name;
         private uint id;
-        private uint depositRate;
+        private static uint depositRate;
         private Account? deposit;
         private Account? notDeposit;
 
@@ -89,7 +77,7 @@ namespace HomeWork_26
         /// <summary>
         /// Процентная ставка для клиента
         /// </summary>
-        public uint DepositRate { get => this.depositRate; set => this.depositRate = value; }
+        public uint DepositRate { get => depositRate; set => depositRate = value; }
 
         /// <summary>
         /// Депозитный счет клиента
@@ -101,46 +89,48 @@ namespace HomeWork_26
         /// </summary>
         private Account? NotDeposit { get => this.notDeposit; set => this.notDeposit = value; }
 
-        Action<string> Action;
+        public event Action<string> Action;
 
         
-
-        /// <summary>
-        /// Метод открытия счета клиента
-        /// </summary>
-        /// <param name="TypeAccount">Тип счета</param>
-        public virtual void OpenAccount(string TypeAccount)
-        {
-            switch (TypeAccount)
-            {
-                case "Deposit":
-                    Deposit = new Account<Client>(ID, DepositRate, 0);                    
-                    break;
-                default:
-                    NotDeposit = new Account<Client>(ID, DepositRate, 0);
-                    break;
-            }
-            Action?.Invoke($"{DateTime.Now.ToShortDateString()} в {DateTime.Now.ToShortTimeString()} клиенту {ID} открыт {TypeAccount}");
-        }
-
-        
+               
         /// <summary>
         /// Метод для открытия счета клиента и его пополнения
         /// </summary>
         /// <param name="TypeAccount">Тип счета</param>
         /// <param name="Ammount">Сумма пополнения</param>
-        public virtual void OpenAccount(string TypeAccount, double Amount)
+        public virtual void OpenAccount(string TypeAccount, double Amount = 0)
         {
             switch (TypeAccount)
             {
                 case "Deposit":
-                    Deposit = new Account<Client>(ID, DepositRate, Amount);
+                    Deposit = new Account(ID, DepositRate, Amount);
                     break;
                 default:
-                    NotDeposit = new Account<Client>(ID, DepositRate, Amount);
+                    NotDeposit = new Account(ID, DepositRate, Amount);
                     break;
             }
             Action?.Invoke($"{DateTime.Now.ToShortDateString()} в {DateTime.Now.ToShortTimeString()} клиенту {ID} открыт {TypeAccount} на сумму {Amount}");
+        }
+
+        
+        
+        public virtual string? CloseAccount (string TypeAccount)
+        {
+
+            string? result;
+            switch (TypeAccount)
+            {
+                case "Deposit":
+                    result = Deposit?.Close();
+                    break;
+                   
+                default:
+                    result =  NotDeposit?.Close();
+                    break;
+                  
+            }
+            Action?.Invoke($"{DateTime.Now.ToShortDateString()} в {DateTime.Now.ToShortTimeString()} клиенту {ID} закрыт {TypeAccount}, выплочено {result} руб.");
+            return result;
         }
 
         private uint GetID()

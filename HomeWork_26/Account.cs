@@ -94,10 +94,40 @@ namespace HomeWork_26
             
             
         }
+        /// <summary>
+        /// Метод пополнения счета
+        /// </summary>
+        /// <param name="SumRefill">Сумма пополнения</param>
+        public void Refill(double SumRefill)
+        {
+            TempInterest += Interest;                          // Сохранение текущих процентов
+            Amount += SumRefill;                               // Увеличение суммы на счете на величину пополнения и количества процентов на данный момент            
+            RefillDate = DateTime.Now.ToShortDateString();     // Установление даты пополнения счета для дальнейшего расчета процентов 
+        }
 
+        /// <summary>
+        /// Метод для перевода со счета
+        /// </summary>
+        /// <param name="Transfer">Сумма перевода</param>
+        private void Transfer(double Transfer)
+        {
+            TempInterest += Interest;                          // Сохранение текущих процентов
+            Amount -= Transfer;                                // Уменьшение суммы на счете на величину перевода            
+            RefillDate = DateTime.Now.ToShortDateString();     // Установление даты пополнения счета для дальнейшего расчета процентов             
+        }
 
-
-
+        /// <summary>
+        /// Метод для перевода между счетами
+        /// </summary>
+        /// <param name="Sender">Счет отправитель</param>
+        /// <param name="Recipient">Счет получатель</param>
+        /// <param name="Amount">Сумма перевода</param>
+        public static void TransferAccount(Account Sender, Account Recipient, double Amount)
+        {
+            Sender.Transfer(Amount);
+            Recipient.Refill(Amount);
+           
+        }
     }
 
 }

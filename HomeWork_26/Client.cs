@@ -98,7 +98,7 @@ namespace HomeWork_26
         /// </summary>
         /// <param name="TypeAccount">Тип счета</param>
         /// <param name="Ammount">Сумма пополнения</param>
-        public virtual void OpenAccount(string TypeAccount, double Amount = 0)
+        public void OpenAccount(string TypeAccount, double Amount = 0)
         {
             switch (TypeAccount)
             {
@@ -109,12 +109,16 @@ namespace HomeWork_26
                     NotDeposit = new Account(ID, DepositRate, Amount);
                     break;
             }
-            Action?.Invoke($"{DateTime.Now.ToShortDateString()} в {DateTime.Now.ToShortTimeString()} клиенту {ID} открыт {TypeAccount} на сумму {Amount}");
+            Action?.Invoke($"{DateTime.Now.ToShortDateString()} в {DateTime.Now.ToShortTimeString()} клиенту {ID} открыт {TypeAccount} на сумму {Amount} руб.");
         }
 
         
-        
-        public virtual string? CloseAccount (string TypeAccount)
+        /// <summary>
+        /// Метод для закрытия счета
+        /// </summary>
+        /// <param name="TypeAccount">Тип счета</param>
+        /// <returns></returns>
+        public string? CloseAccount (string TypeAccount)
         {
 
             string? result;
@@ -130,9 +134,66 @@ namespace HomeWork_26
                   
             }
             Action?.Invoke($"{DateTime.Now.ToShortDateString()} в {DateTime.Now.ToShortTimeString()} клиенту {ID} закрыт {TypeAccount}, выплачено {result} руб.");
-            return result;
+            return $"К выплате {result} руб.";
         }
 
+        /// <summary>
+        /// Метод для пополнения счета
+        /// </summary>
+        /// <param name="TypeAccount">Тип счета</param>
+        /// <param name="SumRefill">Сумма пополнения</param>
+        public void RefillAccount(string TypeAccount, double SumRefill)
+        {
+            switch (TypeAccount)
+            {
+                case "Deposit":
+                    Deposit?.Refill(SumRefill);
+                    break;
+
+                default:
+                    NotDeposit?.Refill(SumRefill);
+                    break;
+
+            }
+            Action?.Invoke($"{DateTime.Now.ToShortDateString()} в {DateTime.Now.ToShortTimeString()} клиенту {ID} пополнен {TypeAccount} на сумму {SumRefill} руб.");
+        }
+        public virtual void Transfer(string TypeAccountSender, Account Recipient, double Amount)
+        {
+            switch (TypeAccountSender)
+            {
+                case "Deposit":
+                    if (Deposit!=null)
+                    { 
+                        Account.TransferAccount(Deposit, Recipient, Amount);
+                    }
+                    else
+                    {
+                        break;
+                    }
+                   
+                    break;
+
+                default:
+                    if (NotDeposit != null)
+                    {
+                        Account.TransferAccount(NotDeposit, Recipient, Amount);
+                    }
+                    else
+                    {
+                        break;
+                    }
+                    break;
+
+            }
+            Action?.Invoke($"{DateTime.Now.ToShortDateString()} в {DateTime.Now.ToShortTimeString()} клиент {ID} перевел c {TypeAccountSender} на счет {Recipient}" +
+                $" клиента {Recipient.ClientID} сумму {Amount} руб.");
+           
+        }
+
+        /// <summary>
+        /// Метод для генерации нового ID клиента
+        /// </summary>
+        /// <returns></returns>
         private uint GetID()
         {
             uint id = 202200;

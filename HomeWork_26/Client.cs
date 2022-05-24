@@ -1,9 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace HomeWork_26
 {
@@ -39,7 +35,7 @@ namespace HomeWork_26
         /// </summary>
         /// <param name="Name">Имя клиента</param>
         /// <param name="TapeAccount">Тип счета</param>
-        public Client(string Name, string TapeAccount): this(Name)
+        public Client(string Name, string TapeAccount) : this(Name)
         {
             OpenAccount(TapeAccount);
         }
@@ -50,8 +46,8 @@ namespace HomeWork_26
         /// <param name="Name">Имя клиента</param>
         /// <param name="TapeAccount">Тип счета</param>
         /// <param name="Amount">Сумма пополнения</param>
-        public Client(string Name, string TapeAccount, double Amount): this(Name)
-        {            
+        public Client(string Name, string TapeAccount, double Amount) : this(Name)
+        {
             OpenAccount(TapeAccount, Amount);
         }
 
@@ -91,8 +87,8 @@ namespace HomeWork_26
 
         public event Action<string> Action;
 
-        
-               
+
+
         /// <summary>
         /// Метод для открытия счета клиента и его пополнения
         /// </summary>
@@ -112,13 +108,13 @@ namespace HomeWork_26
             Action?.Invoke($"{DateTime.Now.ToShortDateString()} в {DateTime.Now.ToShortTimeString()} клиенту {ID} открыт {TypeAccount} на сумму {Amount} руб.");
         }
 
-        
+
         /// <summary>
         /// Метод для закрытия счета
         /// </summary>
         /// <param name="TypeAccount">Тип счета</param>
         /// <returns></returns>
-        public string? CloseAccount (string TypeAccount)
+        public string? CloseAccount(string TypeAccount)
         {
 
             string? result;
@@ -127,11 +123,11 @@ namespace HomeWork_26
                 case "Deposit":
                     result = Deposit?.Close();
                     break;
-                   
+
                 default:
-                    result =  NotDeposit?.Close();
+                    result = NotDeposit?.Close();
                     break;
-                  
+
             }
             Action?.Invoke($"{DateTime.Now.ToShortDateString()} в {DateTime.Now.ToShortTimeString()} клиенту {ID} закрыт {TypeAccount}, выплачено {result} руб.");
             return $"К выплате {result} руб.";
@@ -162,15 +158,10 @@ namespace HomeWork_26
             switch (TypeAccountSender)
             {
                 case "Deposit":
-                    if (Deposit!=null)
-                    { 
+                    if (Deposit != null)
+                    {
                         Account.TransferAccount(Deposit, Recipient, Amount);
                     }
-                    else
-                    {
-                        break;
-                    }
-                   
                     break;
 
                 default:
@@ -178,16 +169,12 @@ namespace HomeWork_26
                     {
                         Account.TransferAccount(NotDeposit, Recipient, Amount);
                     }
-                    else
-                    {
-                        break;
-                    }
                     break;
 
             }
             Action?.Invoke($"{DateTime.Now.ToShortDateString()} в {DateTime.Now.ToShortTimeString()} клиент {ID} перевел c {TypeAccountSender} на счет {Recipient}" +
                 $" клиента {Recipient.ClientID} сумму {Amount} руб.");
-           
+
         }
 
         /// <summary>
@@ -200,7 +187,7 @@ namespace HomeWork_26
             if (File.Exists("_id.txt"))
             {
                 id = uint.Parse(File.ReadAllText("_id.txt"));
-            }            
+            }
             id++;
             File.WriteAllText("_id.txt", id.ToString());
             Action?.Invoke($"{DateTime.Now.ToShortDateString()} в {DateTime.Now.ToShortTimeString()} создан клиент {id}");

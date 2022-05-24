@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace HomeWork_26
 {
@@ -91,9 +87,8 @@ namespace HomeWork_26
         public string Close()
         {
             return (Amount += Interest + TempInterest).ToString();
-            
-            
         }
+
         /// <summary>
         /// Метод пополнения счета
         /// </summary>
@@ -126,7 +121,7 @@ namespace HomeWork_26
         {
             Sender.Transfer(Amount);
             Recipient.Refill(Amount);
-           
+
         }
     }
 

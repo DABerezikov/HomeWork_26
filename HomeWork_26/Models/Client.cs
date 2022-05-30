@@ -1,7 +1,7 @@
 ﻿using System;
 using System.IO;
 
-namespace HomeWork_26
+namespace HomeWork_26.Models
 {
     internal class Client
     {
@@ -10,11 +10,11 @@ namespace HomeWork_26
         /// </summary>
         public Client()
         {
-            this.name = default;
-            this.ID = default;
+            name = default;
+            ID = default;
             depositRate = default;
-            this.deposit = null;
-            this.notDeposit = null;
+            deposit = null;
+            notDeposit = null;
         }
 
         /// <summary>
@@ -23,11 +23,11 @@ namespace HomeWork_26
         /// <param name="Name">Имя клиента</param>
         public Client(string Name)
         {
-            this.name = Name;
-            this.ID = GetID();
+            name = Name;
+            ID = GetID();
             depositRate = 3;
-            this.deposit = null;
-            this.notDeposit = null;
+            deposit = null;
+            notDeposit = null;
 
         }
         /// <summary>
@@ -63,12 +63,12 @@ namespace HomeWork_26
         /// <summary>
         /// Имя клиента
         /// </summary>
-        public string Name { get => this.name; set => this.name = value; }
+        public string Name { get => name; set => name = value; }
 
         /// <summary>
         /// Уникальный номер клиента
         /// </summary>
-        public uint ID { get => this.id; set => this.id = value; }
+        public uint ID { get => id; set => id = value; }
 
         /// <summary>
         /// Процентная ставка для клиента
@@ -78,12 +78,12 @@ namespace HomeWork_26
         /// <summary>
         /// Депозитный счет клиента
         /// </summary>
-        protected Account? Deposit { get => this.deposit; set => this.deposit = value; }
+        protected Account? Deposit { get => deposit; set => deposit = value; }
 
         /// <summary>
         /// Недепозитный счет клиента
         /// </summary>
-        protected Account? NotDeposit { get => this.notDeposit; set => this.notDeposit = value; }
+        protected Account? NotDeposit { get => notDeposit; set => notDeposit = value; }
 
         public event Action<string> Action;
 
@@ -199,7 +199,7 @@ namespace HomeWork_26
     {
         public EntityClient() : base()
         {
-            
+
         }
         public EntityClient(string Name) : base(Name)
         {
@@ -213,7 +213,7 @@ namespace HomeWork_26
         {
 
         }
-        public VIPClient(string Name):base(Name)
+        public VIPClient(string Name) : base(Name)
         {
             DepositRate = 12;
 

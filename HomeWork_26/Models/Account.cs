@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace HomeWork_26
+namespace HomeWork_26.Models
 {
     internal class Account
     {
@@ -12,8 +12,8 @@ namespace HomeWork_26
         {
             ClientID = ID;
             ClientDepositRate = DepositRate;
-            this.amount = Amount;
-            this.openDate = DateTime.Now.ToShortDateString();
+            amount = Amount;
+            openDate = DateTime.Now.ToShortDateString();
         }
         /// <summary>
         /// Используемые поля счета
@@ -41,12 +41,12 @@ namespace HomeWork_26
         /// <summary>
         /// Сумма на счете
         /// </summary>
-        public double Amount { get => this.amount; set => this.amount = value; }
+        public double Amount { get => amount; set => amount = value; }
 
         /// <summary>
         /// Дата открытия счета
         /// </summary>
-        public string OpenDate { get => this.openDate; set => this.openDate = value; }
+        public string OpenDate { get => openDate; set => openDate = value; }
 
         /// <summary>
         /// Процент по счету
@@ -58,12 +58,12 @@ namespace HomeWork_26
                 double year;
                 if (RefillDate == null)
                 {
-                    year = (DateTime.Now - DateTime.Parse(this.openDate)).Days / 365.25;
+                    year = (DateTime.Now - DateTime.Parse(openDate)).Days / 365.25;
 
                 }
                 else
                 {
-                    year = (DateTime.Now - DateTime.Parse(this.refillDate)).Days / 365.25;
+                    year = (DateTime.Now - DateTime.Parse(refillDate)).Days / 365.25;
 
                 }
                 Interest = Amount * year * ClientDepositRate / 100;
@@ -78,7 +78,7 @@ namespace HomeWork_26
         /// <summary>
         /// Дата пополнения счета
         /// </summary>
-        public string RefillDate { get => this.refillDate; set => this.refillDate = value; }
+        public string RefillDate { get => refillDate; set => refillDate = value; }
 
         /// <summary>
         /// Метод для закрытия счета

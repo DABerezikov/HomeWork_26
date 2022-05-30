@@ -1,8 +1,9 @@
-﻿using Newtonsoft.Json;
+﻿using HomeWork_26.Models;
+using Newtonsoft.Json;
 using System.Collections.ObjectModel;
 using System.IO;
 
-namespace HomeWork_26
+namespace HomeWork_26.Services
 {
     internal static class LoadSave
     {

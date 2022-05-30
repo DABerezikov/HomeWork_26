@@ -1,9 +1,7 @@
-﻿using HomeWork_26.ViewModels.Base;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using HomeWork_26.Infrastructure.Commands;
+using HomeWork_26.ViewModels.Base;
+using System.Windows;
+using System.Windows.Input;
 
 namespace HomeWork_26.ViewModels
 {
@@ -29,7 +27,35 @@ namespace HomeWork_26.ViewModels
         {
             get => _Status;
             set => Set(ref _Status, value);
+        }
+        #endregion
+
+        #region Команды
+
+        #region CloseAppicationCommand
+        public ICommand CloseAppicationCommand { get; }
+
+        private bool CanCloseAppicationCommandExecute(object p) => true;
+        private void OnCloseAppicationCommandExecuted(object p)
+        {
+            Application.Current.Shutdown();
         } 
         #endregion
+
+
+
+        #endregion
+
+        public MainWindowViewModel()
+        {
+            #region Команды
+
+            CloseAppicationCommand = new LambdaCommand(OnCloseAppicationCommandExecuted, CanCloseAppicationCommandExecute);
+
+            #endregion
+
+        }
     }
+
+
 }

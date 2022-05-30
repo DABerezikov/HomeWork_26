@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Input;
 
 namespace HomeWork_26.Infrastructure.Commands.Base
@@ -19,6 +15,6 @@ namespace HomeWork_26.Infrastructure.Commands.Base
 
 
         public abstract void Execute(object? parameter);
-        
+
     }
 }

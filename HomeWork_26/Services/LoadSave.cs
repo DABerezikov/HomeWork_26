@@ -5,11 +5,11 @@ using System.IO;
 
 namespace HomeWork_26.Services
 {
-    internal static class LoadSave
+    internal static class LoadSave<T>
     {
-        public static ObservableCollection<Client> LoadDB(string Path)
+        public static ObservableCollection<T> LoadDB(string Path)
         {
-            ObservableCollection<Client> clients = new ObservableCollection<Client>();
+            ObservableCollection<T> clients = new ObservableCollection<T>();
 
             if (File.Exists(Path))
             {
@@ -22,14 +22,14 @@ namespace HomeWork_26.Services
                 using (StreamReader streamReader = new StreamReader(Path))
                 {
                     string text = streamReader.ReadToEnd();
-                    clients = JsonConvert.DeserializeObject<ObservableCollection<Client>>(text, settings);
+                    clients = JsonConvert.DeserializeObject<ObservableCollection<T>>(text, settings);
                 }
 
             }
             return clients;
         }
 
-        public static void SaveDB(string Path, ObservableCollection<Client> clients)
+        public static void SaveDB(string Path, ObservableCollection<T> clients)
         {
             JsonSerializerSettings settings = new JsonSerializerSettings
             {

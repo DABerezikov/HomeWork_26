@@ -5,12 +5,12 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:fa="http://schemas.fontawesome.com/icons/"
         xmlns:l="clr-namespace:HomeWork_26"
-        xmlns:vm="clr-namespace:HomeWork_26.ViewModels"
+        xmlns:vm="clr-namespace:HomeWork_26.ViewModels"        
         mc:Ignorable="d"
         Title="{Binding Path= Title}"
         Height="450" Width="800">
     <Window.DataContext>
-        <vm:MainWindowViewModel/>
+        <vm:MainWindowViewModel/>        
     </Window.DataContext>
 
     <DockPanel>
@@ -18,58 +18,51 @@
             <MenuItem Header="Файл">
                 <MenuItem Header="Выход" Command="{Binding CloseAppicationCommand}"/>
             </MenuItem>
-            <MenuItem Header="Помощь">
-                <MenuItem Header="О программе"></MenuItem>
+            <MenuItem Header="Действия с клиентами">
+                <MenuItem Header="Добавить клиента" >
+                    <MenuItem Header="Клиент банка" Command="{Binding CreateClientCommand}"/>
+                    <MenuItem Header="Юридическое лицо" Command="{Binding CreateEntityClientCommand}"/>
+                    <MenuItem Header="VIP клиент банка" Command="{Binding CreateVIPClientCommand}"/>
+                </MenuItem>
+               
+                <MenuItem Header="Удалить клиента"/>
             </MenuItem>
         </Menu>
         <StatusBar DockPanel.Dock="Bottom">
-            <StatusBarItem MinWidth="150" MaxWidth="300">
+            <StatusBarItem>
                 <TextBlock Text="{Binding Status}"/>
             </StatusBarItem>
-            <StatusBarItem>
-                <ProgressBar Width="120" Height="14" Value="30"/>
-            </StatusBarItem>
+            
         </StatusBar>
         <TabControl>
             <TabItem>
                 <TabItem.Header>
                     <StackPanel Orientation="Horizontal">
                         <fa:ImageAwesome Icon="Regular_File" Height="13" Margin="0,0,5,0" Foreground="Red"/>
-                        <TextBlock Text="Вкладка 1"/>
+                        <TextBlock Text="Список клиентов банка"/>
                     </StackPanel>
                 </TabItem.Header>
-            
-            <Grid>
+
+                <Grid>
                     <Grid.RowDefinitions>
-                        <RowDefinition Height="153*"/>
-                        <RowDefinition Height="236*"/>
+                        <RowDefinition/>
                     </Grid.RowDefinitions>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="377*"/>
                         <ColumnDefinition Width="418*"/>
                     </Grid.ColumnDefinitions>
-                    <Rectangle Grid.Row="0" Grid.Column="0" Margin="5,7"
-                               Fill="Blue"
-                               Stroke="Red"
-                               StrokeThickness="3"
-                               RadiusX="5"
-                               RadiusY="7"/>
-                    <Ellipse Grid.Column="1" Grid.Row="1"
-                             Fill="Red"
-                             Stroke="Blue"
-                             StrokeThickness="3">
-                        <Ellipse.InputBindings>
-                            <MouseBinding Command="{Binding CloseAppicationCommand}" MouseAction="LeftDoubleClick"/>
-                        </Ellipse.InputBindings>
-                    </Ellipse>
 
-                    <GridSplitter Grid.Column="0" Grid.Row="0" Grid.RowSpan="2"
-                                  HorizontalAlignment="Right"
-                                  Width="4"/>
+                    <DataGrid Grid.Row="0" ItemsSource="{Binding DBClients}" AutoGenerateColumns="False">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="ID клиента" Binding="{Binding ID}"></DataGridTextColumn>
+                            <DataGridTextColumn Header="Имя клиента" Binding="{Binding Name}"></DataGridTextColumn>                           
+                        </DataGrid.Columns>
+                        
+                    </DataGrid>                    
+                    <DockPanel LastChildFill="False"/>
 
                 </Grid>
             </TabItem>
-            <TabItem Header="Вкладка 2"></TabItem>
         </TabControl>
     </DockPanel>
 </Window>

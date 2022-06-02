@@ -56,7 +56,7 @@ namespace HomeWork_26.Models
         /// </summary>
         private string? name;
         private uint id;
-        private static uint depositRate;
+        private uint depositRate;
         private Account? deposit;
         private Account? notDeposit;
 
@@ -205,6 +205,11 @@ namespace HomeWork_26.Models
         {
             DepositRate = 6;
         }
+
+        public EntityClient(string Name, string TapeAccount) : base(Name, TapeAccount) { DepositRate = 6; }
+
+        public EntityClient(string Name, string TapeAccount, double Amount) : base(Name, TapeAccount, Amount) { DepositRate = 6; }
+
     }
 
     internal class VIPClient : Client
@@ -218,5 +223,9 @@ namespace HomeWork_26.Models
             DepositRate = 12;
 
         }
+
+        public VIPClient(string Name, string TapeAccount) : base(Name, TapeAccount) { DepositRate = 12; }
+
+        public VIPClient(string Name, string TapeAccount, double Amount) : base(Name, TapeAccount, Amount) { DepositRate = 12; }
     }
 }

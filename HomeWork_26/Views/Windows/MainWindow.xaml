@@ -10,7 +10,7 @@
         Title="{Binding Path= Title}"
         Height="450" Width="800">
     <Window.DataContext>
-        <vm:MainWindowViewModel/>        
+        <vm:MainWindowViewModel/>
     </Window.DataContext>
 
     <DockPanel>
@@ -24,7 +24,7 @@
                     <MenuItem Header="Юридическое лицо" Command="{Binding CreateEntityClientCommand}"/>
                     <MenuItem Header="VIP клиент банка" Command="{Binding CreateVIPClientCommand}"/>
                 </MenuItem>
-               
+
                 <MenuItem Header="Удалить клиента"/>
             </MenuItem>
         </Menu>
@@ -32,7 +32,7 @@
             <StatusBarItem>
                 <TextBlock Text="{Binding Status}"/>
             </StatusBarItem>
-            
+
         </StatusBar>
         <TabControl>
             <TabItem>
@@ -45,21 +45,56 @@
 
                 <Grid>
                     <Grid.RowDefinitions>
-                        <RowDefinition/>
+                        <RowDefinition Height="299*"/>
+                        <RowDefinition Height="67*"/>
                     </Grid.RowDefinitions>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="377*"/>
                         <ColumnDefinition Width="418*"/>
                     </Grid.ColumnDefinitions>
 
-                    <DataGrid Grid.Row="0" ItemsSource="{Binding DBClients}" AutoGenerateColumns="False">
+                    <DataGrid Grid.Row="0" ItemsSource="{Binding DBClients}" AutoGenerateColumns="False" IsReadOnly="True" Grid.ColumnSpan="2" Margin="0,0,417,0" Grid.RowSpan="2">
                         <DataGrid.Columns>
                             <DataGridTextColumn Header="ID клиента" Binding="{Binding ID}"></DataGridTextColumn>
-                            <DataGridTextColumn Header="Имя клиента" Binding="{Binding Name}"></DataGridTextColumn>                           
+                            <DataGridTextColumn Header="Имя клиента" Binding="{Binding Name}"></DataGridTextColumn>
+                            <DataGridTextColumn Header="Депозит" Binding="{Binding Deposit.Amount}"></DataGridTextColumn>
+                            <DataGridTextColumn Header="Недепозит" Binding="{Binding NotDeposit.Amount}"></DataGridTextColumn>
                         </DataGrid.Columns>
-                        
-                    </DataGrid>                    
-                    <DockPanel LastChildFill="False"/>
+
+                    </DataGrid>
+                    <DockPanel LastChildFill="False" Grid.ColumnSpan="2" Margin="0,0,417,0" Grid.RowSpan="2"/>
+                    <TextBlock Width="150"
+                               HorizontalAlignment="Left"
+                               TextAlignment="Center"
+                               Grid.Column="0"
+                               Grid.Row="1"
+                               FontWeight="DemiBold"
+                               Text="Имя клиента"
+                               Margin="10,0,0,0"/>
+                    <TextBox Width="150"
+                             Height="25"
+                             HorizontalAlignment="Left"
+                             TextAlignment="Center"
+                             Grid.Column="0"
+                             Grid.Row="1"
+                             Margin="10,0,0,0"
+                             Text="{Binding NameClient}"/>
+                    <TextBlock Width="150"
+                               HorizontalAlignment="Left"
+                               TextAlignment="Center"
+                               Grid.Column="0"
+                               Grid.Row="1"
+                               FontWeight="DemiBold"
+                               Text="Сумма пополнения"
+                               Margin="170,0,0,0"/>
+                    <TextBox Width="150"
+                             Height="25"
+                             HorizontalAlignment="Left"
+                             TextAlignment="Center"
+                             Grid.Column="0"
+                             Grid.Row="1"
+                             Margin="170,0,0,0"
+                             Text="{Binding AmountClient}"/>
 
                 </Grid>
             </TabItem>

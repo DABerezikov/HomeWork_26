@@ -78,12 +78,12 @@ namespace HomeWork_26.Models
         /// <summary>
         /// Депозитный счет клиента
         /// </summary>
-        protected Account? Deposit { get => deposit; set => deposit = value; }
+        public Account? Deposit { get => deposit; set => deposit = value; }
 
         /// <summary>
         /// Недепозитный счет клиента
         /// </summary>
-        protected Account? NotDeposit { get => notDeposit; set => notDeposit = value; }
+        public Account? NotDeposit { get => notDeposit; set => notDeposit = value; }
 
         public event Action<string> Action;
 

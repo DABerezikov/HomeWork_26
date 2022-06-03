@@ -79,6 +79,50 @@ namespace HomeWork_26.ViewModels
         }
         #endregion
 
+        #region NameClient : string - Имя клиента
+        private string _NameClient = "Имя клиента";
+
+        /// <summary>Имя клиента</summary>
+        public string NameClient
+        {
+            get => _NameClient;
+            set => Set(ref _NameClient, value);
+        }
+        #endregion
+
+        #region TypeClient : string - Тип клиента
+        private string _TypeClient;
+
+        /// <summary>Тип клиента</summary>
+        public string TypeClient
+        {
+            get => _TypeClient;
+            set => Set(ref _TypeClient, value);
+        }
+        #endregion
+
+        #region TypeAccount : string - Тип счета клиента
+        private string _TypeAccount = "Deposit";
+
+        /// <summary>Тип счета клиента</summary>
+        public string TypeAccount
+        {
+            get => _TypeAccount;
+            set => Set(ref _TypeAccount, value);
+        }
+        #endregion
+
+        #region AmountClient : string - Сумма пополнения счета клиента
+        private string _AmountClient = "0";
+
+        /// <summary>Сумма пополнения счета клиента</summary>
+        public string AmountClient
+        {
+            get => _AmountClient;
+            set => Set(ref _AmountClient, value);
+        }
+        #endregion
+
         #region DBClients : ObservableCollection - База данных клиентов банка
         private ObservableCollection<Client> _DBClients;
 
@@ -150,6 +194,12 @@ namespace HomeWork_26.ViewModels
             CreateClientCommand = new LambdaCommand(OnCreateClientCommandExecuted, CanCreateClientCommandExecute);
             CreateEntityClientCommand = new LambdaCommand(OnCreateEntityClientCommandExecuted, CanCreateEntityClientCommandExecute);
             CreateVIPClientCommand = new LambdaCommand(OnCreateVIPClientCommandExecuted, CanCreateVIPClientCommandExecute);
+            #endregion
+
+            #region Данные
+
+            DBClients = LoadSave<Client>.LoadDB(Path);
+
             #endregion
 
             #region Данные

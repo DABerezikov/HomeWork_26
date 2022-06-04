@@ -112,56 +112,29 @@ namespace HomeWork_26.ViewModels
             return false;
         }
         private void OnCreateClientCommandExecuted(object p)
-        {          
-            
-            DBClients.Add(new Client(NameClient, TypeAccount, double.Parse(AmountClient)));
-            LoadSave<Client>.SaveDB(Path, DBClients);
-            Clear();
-        }
-        #endregion
-
-        #region CreateEntityClientCommand
-        public ICommand CreateEntityClientCommand { get; }
-
-        private bool CanCreateEntityClientCommandExecute(object p)
         {
-            if (NameClient != "")
+
+            Client client;
+            switch (TypeClient)
             {
-                return true;
+                case "Юридическое лицо":
+                    client = new EntityClient(NameClient, TypeAccount, double.Parse(AmountClient));
+                    break;
+                case "VIP клиент банка":
+                    client = new VIPClient(NameClient, TypeAccount, double.Parse(AmountClient));
+                    break;
+                   
+                default:
+                    client = new Client(NameClient, TypeAccount, double.Parse(AmountClient));
+                    break;
             }
-            return false;
-
-        }
-        private void OnCreateEntityClientCommandExecuted(object p)
-        {
-
-            DBClients.Add(new EntityClient(NameClient, TypeAccount, double.Parse(AmountClient)));
+            DBClients.Add(client);
             LoadSave<Client>.SaveDB(Path, DBClients);
             Clear();
         }
         #endregion
 
-        #region CreateVIPClientCommand
-        public ICommand CreateVIPClientCommand { get; }
-
-        private bool CanCreateVIPClientCommandExecute(object p)
-        {
-            if (NameClient != "")
-            {
-                return true;
-            }
-            return false;
-
-        }
-        private void OnCreateVIPClientCommandExecuted(object p)
-        {
-
-            DBClients.Add(new VIPClient(NameClient, TypeAccount, double.Parse(AmountClient)));
-            LoadSave<Client>.SaveDB(Path, DBClients);
-            Clear();
-        }
-        #endregion
-
+       
         #region CloseAppicationCommand
         public ICommand CloseAppicationCommand { get; }
 
@@ -182,8 +155,7 @@ namespace HomeWork_26.ViewModels
 
             CloseAppicationCommand = new LambdaCommand(OnCloseAppicationCommandExecuted, CanCloseAppicationCommandExecute);
             CreateClientCommand = new LambdaCommand(OnCreateClientCommandExecuted, CanCreateClientCommandExecute);
-            CreateEntityClientCommand = new LambdaCommand(OnCreateEntityClientCommandExecuted, CanCreateEntityClientCommandExecute);
-            CreateVIPClientCommand = new LambdaCommand(OnCreateVIPClientCommandExecuted, CanCreateVIPClientCommandExecute);
+            
             #endregion
 
             #region Данные

@@ -46,19 +46,19 @@
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition/>
-                        <RowDefinition Height="150"/>
+                        <RowDefinition Height="200"/>
                     </Grid.RowDefinitions>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="Auto" MinWidth="1000"/>
                         <ColumnDefinition Width="Auto" MinWidth="400"/>
                     </Grid.ColumnDefinitions>
 
-                    <DataGrid Grid.Row="0" ItemsSource="{Binding DBClients}" AutoGenerateColumns="False"  Margin="0,0,228,0" Grid.RowSpan="2">
+                    <DataGrid Grid.Row="0" ItemsSource="{Binding DBClients}" AutoGenerateColumns="False" IsReadOnly="True" Margin="0,0,228,0" Grid.RowSpan="2">
                         <DataGrid.Columns>
-                            <DataGridTextColumn Header="ID клиента" Binding="{Binding ID}" IsReadOnly="True"></DataGridTextColumn>
-                            <DataGridTextColumn Header="Имя клиента" Binding="{Binding Name}" IsReadOnly="False"></DataGridTextColumn>
-                            <DataGridTextColumn Header="Депозит" Binding="{Binding Deposit.Amount}" IsReadOnly="True"></DataGridTextColumn>
-                            <DataGridTextColumn Header="Недепозит" Binding="{Binding NotDeposit.Amount}" IsReadOnly="True"></DataGridTextColumn>
+                            <DataGridTextColumn Header="ID клиента" Binding="{Binding ID}"></DataGridTextColumn>
+                            <DataGridTextColumn Header="Имя клиента" Binding="{Binding Name}" ></DataGridTextColumn>
+                            <DataGridTextColumn Header="Депозит" Binding="{Binding Deposit.Amount}"></DataGridTextColumn>
+                            <DataGridTextColumn Header="Недепозит" Binding="{Binding NotDeposit.Amount}"></DataGridTextColumn>
                         </DataGrid.Columns>
 
                     </DataGrid>
@@ -75,10 +75,11 @@
                     <TextBox Width="150"
                              Height="30"
                              HorizontalAlignment="Left"
+                             VerticalAlignment="Top"
                              TextAlignment="Center"
                              Grid.Column="0"
                              Grid.Row="1"
-                             Margin="10,0,0,0"
+                             Margin="10,60,0,0"
                              Text="{Binding NameClient}"/>
                     <TextBlock Width="150"                              
                                HorizontalAlignment="Left"
@@ -92,11 +93,45 @@
                     <TextBox Width="150"
                              Height="30"
                              HorizontalAlignment="Left"
+                             VerticalAlignment="Top"
                              TextAlignment="Center"
                              Grid.Column="0"
                              Grid.Row="1"
-                             Margin="170,0,0,0"
+                             Margin="170,60,0,0"
                              Text="{Binding AmountClient}"/>
+                    <TextBlock Width="150"                              
+                               HorizontalAlignment="Left"
+                               VerticalAlignment="Top"
+                               TextAlignment="Center"
+                               Grid.Column="0"
+                               Grid.Row="1"
+                               FontWeight="DemiBold"
+                               Text="Тип клиента"
+                               Margin="10,100,0,0" Height="16"/>
+                    <ComboBox Width="150"
+                              Height="30"
+                              Grid.Row="1"
+                              Grid.Column="0"
+                              HorizontalAlignment="Left"
+                              VerticalAlignment="Top"
+                              VerticalContentAlignment="Center"
+                              HorizontalContentAlignment="Center" 
+                              Text="{Binding TypeClient}" Margin="10,120,0,0">
+                        <ComboBoxItem Content="Клиент банка"/>
+                        <ComboBoxItem Content="Юридическое лицо"/>
+                        <ComboBoxItem Content="VIP клиент банка"/>
+                    </ComboBox>
+                    <Button Width="150"
+                            Height="30"
+                            Margin="170,120,0,0"
+                            Grid.Row="1"
+                            Grid.Column="0"
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Top"
+                            VerticalContentAlignment="Center"
+                            HorizontalContentAlignment="Center" 
+                            Content="Добавить клиента"
+                            Command="{Binding CreateClientCommand}"></Button>
 
                 </Grid>
             </TabItem>

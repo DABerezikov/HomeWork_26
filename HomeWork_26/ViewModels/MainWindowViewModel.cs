@@ -90,6 +90,17 @@ namespace HomeWork_26.ViewModels
         }
         #endregion
 
+        #region SelectedClient : int - Выбранный клиент банка
+        private int _SelectedClient = -1;
+
+        /// <summary>База клиентов</summary>
+        public int SelectedClient
+        {
+            get => _SelectedClient;
+            set => Set(ref _SelectedClient, value);
+        }
+        #endregion
+
         #region Clear : void - Очистка полей
         private void Clear()
         {
@@ -146,7 +157,23 @@ namespace HomeWork_26.ViewModels
         }
         #endregion
 
+        #region RemoveClientCommand
+        public ICommand RemoveClientCommand { get; }
 
+        private bool CanRemoveClientCommandExecute(object p)
+        {
+            if (SelectedClient!=-1)
+            {
+                return true;
+            }
+            return false;
+        }
+        private void OnRemoveClientCommandExecuted(object p)
+        {
+            DBClients.Remove(DBClients[SelectedClient]);
+            LoadSave<Client>.SaveDB(Path, DBClients);
+        }
+        #endregion
 
         #endregion
 
@@ -156,7 +183,7 @@ namespace HomeWork_26.ViewModels
 
             CloseAppicationCommand = new LambdaCommand(OnCloseAppicationCommandExecuted, CanCloseAppicationCommandExecute);
             CreateClientCommand = new LambdaCommand(OnCreateClientCommandExecuted, CanCreateClientCommandExecute);
-            
+            RemoveClientCommand = new LambdaCommand(OnRemoveClientCommandExecuted, CanRemoveClientCommandExecute);
             #endregion
 
             #region Данные

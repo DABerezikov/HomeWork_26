@@ -85,7 +85,7 @@ namespace HomeWork_26.Models
         /// </summary>
         public Account? NotDeposit { get => notDeposit; set => notDeposit = value; }
 
-        public event Action<string> Action;
+        public event Action<string> LogAction;
 
 
 
@@ -105,7 +105,7 @@ namespace HomeWork_26.Models
                     NotDeposit = new Account(ID, DepositRate, Amount);
                     break;
             }
-            Action?.Invoke($"{DateTime.Now.ToShortDateString()} в {DateTime.Now.ToShortTimeString()} клиенту {ID} открыт {TypeAccount} на сумму {Amount} руб.");
+            LogAction?.Invoke($"{DateTime.Now.ToShortDateString()} в {DateTime.Now.ToShortTimeString()} клиенту {ID} открыт {TypeAccount} на сумму {Amount} руб.");
         }
 
 
@@ -129,7 +129,7 @@ namespace HomeWork_26.Models
                     break;
 
             }
-            Action?.Invoke($"{DateTime.Now.ToShortDateString()} в {DateTime.Now.ToShortTimeString()} клиенту {ID} закрыт {TypeAccount}, выплачено {result} руб.");
+            LogAction?.Invoke($"{DateTime.Now.ToShortDateString()} в {DateTime.Now.ToShortTimeString()} клиенту {ID} закрыт {TypeAccount}, выплачено {result} руб.");
             return $"К выплате {result} руб.";
         }
 
@@ -151,7 +151,7 @@ namespace HomeWork_26.Models
                     break;
 
             }
-            Action?.Invoke($"{DateTime.Now.ToShortDateString()} в {DateTime.Now.ToShortTimeString()} клиенту {ID} пополнен {TypeAccount} на сумму {SumRefill} руб.");
+            LogAction?.Invoke($"{DateTime.Now.ToShortDateString()} в {DateTime.Now.ToShortTimeString()} клиенту {ID} пополнен {TypeAccount} на сумму {SumRefill} руб.");
         }
         public void Transfer(string TypeAccountSender, Account Recipient, double Amount)
         {
@@ -172,7 +172,7 @@ namespace HomeWork_26.Models
                     break;
 
             }
-            Action?.Invoke($"{DateTime.Now.ToShortDateString()} в {DateTime.Now.ToShortTimeString()} клиент {ID} перевел c {TypeAccountSender} на счет {Recipient}" +
+            LogAction?.Invoke($"{DateTime.Now.ToShortDateString()} в {DateTime.Now.ToShortTimeString()} клиент {ID} перевел c {TypeAccountSender} на счет {Recipient}" +
                 $" клиента {Recipient.ClientID} сумму {Amount} руб.");
 
         }
@@ -190,7 +190,7 @@ namespace HomeWork_26.Models
             }
             id++;
             File.WriteAllText("_id.txt", id.ToString());
-            Action?.Invoke($"{DateTime.Now.ToShortDateString()} в {DateTime.Now.ToShortTimeString()} создан клиент {id}");
+            LogAction?.Invoke($"{DateTime.Now.ToShortDateString()} в {DateTime.Now.ToShortTimeString()} создан клиент {id}");
             return id;
         }
 

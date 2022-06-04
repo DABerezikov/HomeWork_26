@@ -22,7 +22,7 @@
         </Menu>
         <StatusBar DockPanel.Dock="Bottom">
             <StatusBarItem>
-                <TextBlock Text="{Binding Status}"/>
+                <TextBlock Text="{Binding LogText}"/>
             </StatusBarItem>
 
         </StatusBar>

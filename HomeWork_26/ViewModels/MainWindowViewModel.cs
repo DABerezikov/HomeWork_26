@@ -101,6 +101,17 @@ namespace HomeWork_26.ViewModels
         }
         #endregion
 
+        #region LogText : string - Текст для логирования
+        private string _LogText;
+
+        /// <summary>База клиентов</summary>
+        public string LogText
+        {
+            get => _LogText;
+            set => Set(ref _LogText, value);
+        }
+        #endregion
+
         #region Clear : void - Очистка полей
         private void Clear()
         {
@@ -109,6 +120,8 @@ namespace HomeWork_26.ViewModels
             TypeClient = string.Empty;
         }
         #endregion
+
+
 
         #region Команды
 

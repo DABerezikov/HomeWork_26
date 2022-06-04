@@ -18,15 +18,7 @@
             <MenuItem Header="Файл">
                 <MenuItem Header="Выход" Command="{Binding CloseAppicationCommand}"/>
             </MenuItem>
-            <MenuItem Header="Действия с клиентами">
-                <MenuItem Header="Добавить клиента" >
-                    <MenuItem Header="Клиент банка" Command="{Binding CreateClientCommand}"/>
-                    <MenuItem Header="Юридическое лицо" Command="{Binding CreateEntityClientCommand}"/>
-                    <MenuItem Header="VIP клиент банка" Command="{Binding CreateVIPClientCommand}"/>
-                </MenuItem>
-
-                <MenuItem Header="Удалить клиента"/>
-            </MenuItem>
+            
         </Menu>
         <StatusBar DockPanel.Dock="Bottom">
             <StatusBarItem>

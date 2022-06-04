@@ -45,50 +45,52 @@
 
                 <Grid>
                     <Grid.RowDefinitions>
-                        <RowDefinition Height="299*"/>
-                        <RowDefinition Height="67*"/>
+                        <RowDefinition/>
+                        <RowDefinition Height="150"/>
                     </Grid.RowDefinitions>
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="377*"/>
-                        <ColumnDefinition Width="418*"/>
+                        <ColumnDefinition Width="Auto" MinWidth="1000"/>
+                        <ColumnDefinition Width="Auto" MinWidth="400"/>
                     </Grid.ColumnDefinitions>
 
-                    <DataGrid Grid.Row="0" ItemsSource="{Binding DBClients}" AutoGenerateColumns="False" IsReadOnly="True" Grid.ColumnSpan="2" Margin="0,0,417,0" Grid.RowSpan="2">
+                    <DataGrid Grid.Row="0" ItemsSource="{Binding DBClients}" AutoGenerateColumns="False"  Margin="0,0,228,0" Grid.RowSpan="2">
                         <DataGrid.Columns>
-                            <DataGridTextColumn Header="ID клиента" Binding="{Binding ID}"></DataGridTextColumn>
-                            <DataGridTextColumn Header="Имя клиента" Binding="{Binding Name}"></DataGridTextColumn>
-                            <DataGridTextColumn Header="Депозит" Binding="{Binding Deposit.Amount}"></DataGridTextColumn>
-                            <DataGridTextColumn Header="Недепозит" Binding="{Binding NotDeposit.Amount}"></DataGridTextColumn>
+                            <DataGridTextColumn Header="ID клиента" Binding="{Binding ID}" IsReadOnly="True"></DataGridTextColumn>
+                            <DataGridTextColumn Header="Имя клиента" Binding="{Binding Name}" IsReadOnly="False"></DataGridTextColumn>
+                            <DataGridTextColumn Header="Депозит" Binding="{Binding Deposit.Amount}" IsReadOnly="True"></DataGridTextColumn>
+                            <DataGridTextColumn Header="Недепозит" Binding="{Binding NotDeposit.Amount}" IsReadOnly="True"></DataGridTextColumn>
                         </DataGrid.Columns>
 
                     </DataGrid>
-                    <DockPanel LastChildFill="False" Grid.ColumnSpan="2" Margin="0,0,417,0" Grid.RowSpan="2"/>
+                    <DockPanel LastChildFill="False" Margin="0,0,228,0" Grid.RowSpan="2"/>
                     <TextBlock Width="150"
                                HorizontalAlignment="Left"
+                               VerticalAlignment="Top"
                                TextAlignment="Center"
                                Grid.Column="0"
                                Grid.Row="1"
                                FontWeight="DemiBold"
                                Text="Имя клиента"
-                               Margin="10,0,0,0"/>
+                               Margin="10,30,0,0" Height="16"/>
                     <TextBox Width="150"
-                             Height="25"
+                             Height="30"
                              HorizontalAlignment="Left"
                              TextAlignment="Center"
                              Grid.Column="0"
                              Grid.Row="1"
                              Margin="10,0,0,0"
                              Text="{Binding NameClient}"/>
-                    <TextBlock Width="150"
+                    <TextBlock Width="150"                              
                                HorizontalAlignment="Left"
+                               VerticalAlignment="Top"
                                TextAlignment="Center"
                                Grid.Column="0"
                                Grid.Row="1"
                                FontWeight="DemiBold"
                                Text="Сумма пополнения"
-                               Margin="170,0,0,0"/>
+                               Margin="170,30,0,0" Height="16"/>
                     <TextBox Width="150"
-                             Height="25"
+                             Height="30"
                              HorizontalAlignment="Left"
                              TextAlignment="Center"
                              Grid.Column="0"

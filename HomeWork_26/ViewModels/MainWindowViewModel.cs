@@ -165,11 +165,7 @@ namespace HomeWork_26.ViewModels
 
             #endregion
 
-            #region Данные
-
-            DBClients = LoadSave<Client>.LoadDB(Path);
-
-            #endregion
+            
         }
     }
 

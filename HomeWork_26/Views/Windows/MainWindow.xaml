@@ -8,7 +8,7 @@
         xmlns:vm="clr-namespace:HomeWork_26.ViewModels"        
         mc:Ignorable="d"
         Title="{Binding Path= Title}"
-        Height="450" Width="800">
+        Height="800" Width="1280">
     <Window.DataContext>
         <vm:MainWindowViewModel/>
     </Window.DataContext>
@@ -18,15 +18,7 @@
             <MenuItem Header="Файл">
                 <MenuItem Header="Выход" Command="{Binding CloseAppicationCommand}"/>
             </MenuItem>
-            <MenuItem Header="Действия с клиентами">
-                <MenuItem Header="Добавить клиента" >
-                    <MenuItem Header="Клиент банка" Command="{Binding CreateClientCommand}"/>
-                    <MenuItem Header="Юридическое лицо" Command="{Binding CreateEntityClientCommand}"/>
-                    <MenuItem Header="VIP клиент банка" Command="{Binding CreateVIPClientCommand}"/>
-                </MenuItem>
-
-                <MenuItem Header="Удалить клиента"/>
-            </MenuItem>
+            
         </Menu>
         <StatusBar DockPanel.Dock="Bottom">
             <StatusBarItem>
@@ -63,6 +55,7 @@
 
                     </DataGrid>
                     <DockPanel LastChildFill="False" Margin="0,0,228,0" Grid.RowSpan="2"/>
+                    
                     <TextBlock Width="150"
                                HorizontalAlignment="Left"
                                VerticalAlignment="Top"

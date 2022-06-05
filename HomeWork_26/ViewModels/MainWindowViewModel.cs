@@ -140,6 +140,7 @@ namespace HomeWork_26.ViewModels
         {
 
             Client client;
+            
             switch (TypeClient)
             {
                 case "Юридическое лицо":
@@ -154,6 +155,7 @@ namespace HomeWork_26.ViewModels
                     break;
             }
             DBClients.Add(client);
+            
             LoadSave<Client>.SaveDB(Path, DBClients);
             Clear();
         }

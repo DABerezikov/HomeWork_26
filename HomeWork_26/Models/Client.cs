@@ -1,4 +1,5 @@
-﻿using System;
+﻿using HomeWork_26.Services;
+using System;
 using System.IO;
 
 namespace HomeWork_26.Models
@@ -23,6 +24,7 @@ namespace HomeWork_26.Models
         /// <param name="Name">Имя клиента</param>
         public Client(string Name)
         {
+            this.LogAction += LoadSave<Client>.Log;
             name = Name;
             ID = GetID();
             depositRate = 3;

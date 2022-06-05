@@ -2,6 +2,7 @@
 using HomeWork_26.Models;
 using HomeWork_26.Services;
 using HomeWork_26.ViewModels.Base;
+using System;
 using System.Collections.ObjectModel;
 using System.Windows;
 using System.Windows.Input;
@@ -177,7 +178,7 @@ namespace HomeWork_26.ViewModels
 
         private bool CanRemoveClientCommandExecute(object p)
         {
-            if (SelectedClient!=-1)
+            if (SelectedClient!=-1&& DBClients[SelectedClient].Deposit==null && DBClients[SelectedClient].NotDeposit == null)
             {
                 return true;
             }
@@ -185,6 +186,7 @@ namespace HomeWork_26.ViewModels
         }
         private void OnRemoveClientCommandExecuted(object p)
         {
+            LoadSave<Client>.Log($"{DateTime.Now.ToShortDateString()} в {DateTime.Now.ToShortTimeString()} удален клиент {DBClients[SelectedClient].ID}");
             DBClients.Remove(DBClients[SelectedClient]);
             LoadSave<Client>.SaveDB(Path, DBClients);
         }

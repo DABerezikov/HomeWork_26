@@ -223,6 +223,62 @@ namespace HomeWork_26.ViewModels
         {
             DBClients[SelectedClient].LogAction += LoadSave<Client>.Log;
             DBClients[SelectedClient].OpenAccount(TypeAccount, double.Parse(AmountClient));
+            OnPropertyChanged();
+            LoadSave<Client>.SaveDB(Path, DBClients);
+            Clear();
+        }
+        #endregion
+
+        #region CloseAccountClientCommand
+        public ICommand CloseAccountClientCommand { get; }
+
+        private bool CanCloseAccountClientCommandExecute(object p)
+        {
+            if (SelectedClient != -1 && DBClients[SelectedClient].Deposit != null | DBClients[SelectedClient].NotDeposit != null)
+            {
+                return true;
+            }
+            return false;
+        }
+        private void OnCloseAccountClientCommandExecuted(object p)
+        {
+            DBClients[SelectedClient].LogAction += LoadSave<Client>.Log;
+            MessageBox.Show(DBClients[SelectedClient].CloseAccount(TypeAccount));
+            LoadSave<Client>.SaveDB(Path, DBClients);
+            Clear();
+        }
+        #endregion
+
+        #region CreateAccountClientCommand
+        public ICommand CreateAccountClientCommand { get; }
+
+        private bool CanCreateAccountClientCommandExecute(object p)
+        {
+            if (TypeAccount != string.Empty && SelectedClient != -1 && (DBClients[SelectedClient].Deposit == null || DBClients[SelectedClient].NotDeposit == null))
+            {
+                switch (TypeAccount)
+                {
+                    case "Депозитный счет":
+                        if (DBClients[SelectedClient].Deposit == null)
+                        {
+                            return true;
+                        }
+                        break;
+                    case "Недепозитный счет":
+                        if (DBClients[SelectedClient].NotDeposit == null)
+                        {
+                            return true;
+                        }
+                        break;
+                }
+                
+            }
+            return false;
+        }
+        private void OnCreateAccountClientCommandExecuted(object p)
+        {
+            DBClients[SelectedClient].LogAction += LoadSave<Client>.Log;
+            DBClients[SelectedClient].OpenAccount(TypeAccount, double.Parse(AmountClient));
             OnPropertyChanged("Deposit");
             OnPropertyChanged("NotDeposit"); 
             LoadSave<Client>.SaveDB(Path, DBClients);

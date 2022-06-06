@@ -119,6 +119,7 @@ namespace HomeWork_26.ViewModels
             NameClient = string.Empty;
             AmountClient = "0";
             TypeClient = string.Empty;
+            TypeAccount = string.Empty;
         }
         #endregion
 
@@ -178,7 +179,7 @@ namespace HomeWork_26.ViewModels
 
         private bool CanRemoveClientCommandExecute(object p)
         {
-            if (SelectedClient!=-1&& DBClients[SelectedClient].Deposit==null && DBClients[SelectedClient].NotDeposit == null)
+            if (SelectedClient != -1 && DBClients[SelectedClient].Deposit==null && DBClients[SelectedClient].NotDeposit == null)
             {
                 return true;
             }
@@ -192,6 +193,63 @@ namespace HomeWork_26.ViewModels
         }
         #endregion
 
+        #region CreateAccountClientCommand
+        public ICommand CreateAccountClientCommand { get; }
+
+        private bool CanCreateAccountClientCommandExecute(object p)
+        {
+            if (TypeAccount != string.Empty && SelectedClient != -1 && (DBClients[SelectedClient].Deposit == null || DBClients[SelectedClient].NotDeposit == null))
+            {
+                switch (TypeAccount)
+                {
+                    case "Депозитный счет":
+                        if (DBClients[SelectedClient].Deposit == null)
+                        {
+                            return true;
+                        }
+                        break;
+                    case "Недепозитный счет":
+                        if (DBClients[SelectedClient].NotDeposit == null)
+                        {
+                            return true;
+                        }
+                        break;
+                }
+                
+            }
+            return false;
+        }
+        private void OnCreateAccountClientCommandExecuted(object p)
+        {
+            DBClients[SelectedClient].LogAction += LoadSave<Client>.Log;
+            DBClients[SelectedClient].OpenAccount(TypeAccount, double.Parse(AmountClient));
+            OnPropertyChanged("Deposit");
+            OnPropertyChanged("NotDeposit"); 
+            LoadSave<Client>.SaveDB(Path, DBClients);
+            Clear();
+        }
+        #endregion
+
+        #region CloseAccountClientCommand
+        public ICommand CloseAccountClientCommand { get; }
+
+        private bool CanCloseAccountClientCommandExecute(object p)
+        {
+            if (SelectedClient != -1 && DBClients[SelectedClient].Deposit != null | DBClients[SelectedClient].NotDeposit != null)
+            {
+                return true;
+            }
+            return false;
+        }
+        private void OnCloseAccountClientCommandExecuted(object p)
+        {
+            DBClients[SelectedClient].LogAction += LoadSave<Client>.Log;
+            MessageBox.Show(DBClients[SelectedClient].CloseAccount(TypeAccount));
+            LoadSave<Client>.SaveDB(Path, DBClients);
+            Clear();
+        }
+        #endregion
+
         #endregion
 
         public MainWindowViewModel()
@@ -201,11 +259,14 @@ namespace HomeWork_26.ViewModels
             CloseAppicationCommand = new LambdaCommand(OnCloseAppicationCommandExecuted, CanCloseAppicationCommandExecute);
             CreateClientCommand = new LambdaCommand(OnCreateClientCommandExecuted, CanCreateClientCommandExecute);
             RemoveClientCommand = new LambdaCommand(OnRemoveClientCommandExecuted, CanRemoveClientCommandExecute);
+            CreateAccountClientCommand = new LambdaCommand(OnCreateAccountClientCommandExecuted, CanCreateAccountClientCommandExecute);
+            CloseAccountClientCommand = new LambdaCommand(OnCloseAccountClientCommandExecuted, CanCloseAccountClientCommandExecute);
             #endregion
 
             #region Данные
 
             DBClients = LoadSave<Client>.LoadDB(Path);
+            
 
             #endregion
 

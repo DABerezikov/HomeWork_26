@@ -113,6 +113,7 @@
                         <ComboBoxItem Content="Клиент банка"/>
                         <ComboBoxItem Content="Юридическое лицо"/>
                         <ComboBoxItem Content="VIP клиент банка"/>
+                        
                     </ComboBox>
                     <Button Width="150"
                             Height="30"
@@ -136,6 +137,49 @@
                             HorizontalContentAlignment="Center" 
                             Content="Удалить клиента"
                             Command="{Binding RemoveClientCommand}"/>
+                    <TextBlock Width="150"                              
+                               HorizontalAlignment="Left"
+                               VerticalAlignment="Top"
+                               TextAlignment="Center"
+                               Grid.Column="0"
+                               Grid.Row="1"
+                               FontWeight="DemiBold"
+                               Text="Счет клиента"
+                               Margin="340,100,0,0" Height="16"/>
+                    <ComboBox Width="150"
+                              Height="30"
+                              Grid.Row="1"
+                              Grid.Column="0"
+                              HorizontalAlignment="Left"
+                              VerticalAlignment="Top"
+                              VerticalContentAlignment="Center"
+                              HorizontalContentAlignment="Center" 
+                              Text="{Binding TypeAccount}" Margin="340,120,0,0">
+                        <ComboBoxItem Content="Депозитный счет"/>
+                        <ComboBoxItem Content="Недепозитный счет"/>                       
+                    </ComboBox>
+                    <Button Width="150"
+                            Height="30"
+                            Margin="500,120,0,0"
+                            Grid.Row="1"
+                            Grid.Column="0"
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Top"
+                            VerticalContentAlignment="Center"
+                            HorizontalContentAlignment="Center" 
+                            Content="Открыть счет"
+                            Command="{Binding CreateAccountClientCommand}"/>
+                    <Button Width="150"
+                            Height="30"
+                            Margin="500,160,0,0"
+                            Grid.Row="1"
+                            Grid.Column="0"
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Top"
+                            VerticalContentAlignment="Center"
+                            HorizontalContentAlignment="Center" 
+                            Content="Закрыть счет"
+                            Command="{Binding CloseAccountClientCommand}"/>
 
                 </Grid>
             </TabItem>

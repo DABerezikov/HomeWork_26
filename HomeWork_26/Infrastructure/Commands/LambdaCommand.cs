@@ -12,6 +12,7 @@ namespace HomeWork_26.Infrastructure.Commands
 
         public LambdaCommand(Action<object> Execute, Func<object, bool> CanExecute = null)
         {
+            
             _Execute = Execute ?? throw new ArgumentException(nameof(Execute));
             _CanExecute = CanExecute;            
         }

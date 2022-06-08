@@ -49,7 +49,7 @@
                         <DataGrid.Columns>
                             <DataGridTextColumn Header="ID клиента" Binding="{Binding ID}"></DataGridTextColumn>
                             <DataGridTextColumn Header="Имя клиента" Binding="{Binding Name}" ></DataGridTextColumn>
-                            <DataGridTextColumn Header="Депозит" Binding="{Binding Deposit.Amount}"></DataGridTextColumn>
+                            <DataGridTextColumn Header="Депозит"  Binding="{Binding  Deposit.Amount}"></DataGridTextColumn>
                             <DataGridTextColumn Header="Недепозит" Binding="{Binding NotDeposit.Amount}"></DataGridTextColumn>
                         </DataGrid.Columns>
 

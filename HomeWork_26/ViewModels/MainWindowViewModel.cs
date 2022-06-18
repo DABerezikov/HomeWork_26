@@ -80,25 +80,45 @@ namespace HomeWork_26.ViewModels
         }
         #endregion
 
-        #region DepositAmountClient : string - Сумма пополнения счета клиента
-        private Client _DepositAmountClient;
+        #region DepositAmountClient : string - Сумма на депозитном счете клиента
+        private string _DepositAmountClient;
 
-        /// <summary>Сумма пополнения счета клиента</summary>
-        public double DepositAmountClient
+        public string DepositAmountClient
         {
-            get => _DepositAmountClient.Deposit.Amount;
-            set => Set(_DepositAmountClient.Deposit.Amount, value);
+            get => _DepositAmountClient;
+            set => Set(ref _DepositAmountClient, value);
+        }
+
+        /// <summary> Сумма на депозитном счете клиента</summary>
+        public string GetDepositAmountClient(int selectedClient)
+        {
+            if (selectedClient == -1)
+            {
+                return "Нет счета";
+            }
+            return DBClients?[selectedClient].Deposit!=null?DBClients[selectedClient].Deposit.Amount.ToString():"Нет счета";
         }
         #endregion
 
-        #region NotDepositAmountClient : string - Сумма пополнения счета клиента
-       
+        #region NotDepositAmountClient : string - Сумма на недепозитном счете клиента
 
-        /// <summary>Сумма пополнения счета клиента</summary>
-        public double NotDepositAmountClient
+
+        private string _NotDepositAmountClient;
+
+        public string NotDepositAmountClient
         {
-            get => _DepositAmountClient.NotDeposit.Amount;
-            set => Set(_DepositAmountClient.NotDeposit.Amount, value);
+            get => _NotDepositAmountClient;
+            set => Set(ref _NotDepositAmountClient, GetNotDepositAmountClient(SelectedClient));
+        }
+
+        /// <summary> Сумма на депозитном счете клиента</summary>
+        public string GetNotDepositAmountClient(int selectedClient)
+        {
+            if (selectedClient == -1)
+            {
+                return "Нет счета";
+            }
+            return DBClients?[selectedClient].NotDeposit != null ? DBClients[selectedClient].NotDeposit.Amount.ToString() : "Нет счета";
         }
         #endregion    
 
@@ -121,7 +141,13 @@ namespace HomeWork_26.ViewModels
         public int SelectedClient
         {
             get => _SelectedClient;
-            set => Set(ref _SelectedClient, value);
+            set
+            {
+                Set(ref _SelectedClient, value);
+                DepositAmountClient = GetDepositAmountClient(SelectedClient);
+                NotDepositAmountClient = GetNotDepositAmountClient(SelectedClient);
+
+            }
         }
         #endregion
 
@@ -142,6 +168,15 @@ namespace HomeWork_26.ViewModels
             NameClient = string.Empty;
             AmountClient = "0";
             TypeClient = string.Empty;
+            switch (TypeAccount)
+            {
+                case "Депозитный счет":
+                    DepositAmountClient = GetDepositAmountClient(SelectedClient);
+                    break;
+                case "Недепозитный счет":
+                    NotDepositAmountClient = GetNotDepositAmountClient(SelectedClient);
+                    break;
+            }
             TypeAccount = "Депозитный счет";
         }
         #endregion
@@ -213,6 +248,7 @@ namespace HomeWork_26.ViewModels
             LoadSave<Client>.Log($"{DateTime.Now.ToShortDateString()} в {DateTime.Now.ToShortTimeString()} удален клиент {DBClients[SelectedClient].ID}");
             DBClients.Remove(DBClients[SelectedClient]);
             LoadSave<Client>.SaveDB(Path, DBClients);
+            Clear();
         }
         #endregion
 
@@ -244,21 +280,9 @@ namespace HomeWork_26.ViewModels
         }
         private void OnCreateAccountClientCommandExecuted(object p)
         {
-             _DepositAmountClient =  DBClients[SelectedClient];
-            _DepositAmountClient.LogAction += LoadSave<Client>.Log;
-            _DepositAmountClient.OpenAccount(TypeAccount);
-            DepositAmountClient = double.Parse(AmountClient);
-
-
-            switch (TypeAccount)
-            {
-                case "Депозитный счет":
-                    OnPropertyChanged(nameof(SelectedClient));
-                    break;
-                case "Недепозитный счет":
-                    OnPropertyChanged(nameof(SelectedClient));
-                    break;
-            }            
+            
+            DBClients[SelectedClient].LogAction += LoadSave<Client>.Log;
+            DBClients[SelectedClient].OpenAccount(TypeAccount, double.Parse(AmountClient));            
             LoadSave<Client>.SaveDB(Path, DBClients);
             Clear();
         }

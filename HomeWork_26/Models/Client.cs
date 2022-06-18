@@ -114,13 +114,13 @@ namespace HomeWork_26.Models
         /// <summary>
         /// Метод для закрытия счета
         /// </summary>
-        /// <param name="TypeAccount">Тип счета</param>
+        /// <param name="typeAccount">Тип счета</param>
         /// <returns></returns>
-        public string? CloseAccount(string TypeAccount)
+        public string? CloseAccount(string typeAccount)
         {
 
             string? result;
-            switch (TypeAccount)
+            switch (typeAccount)
             {
                 case "Депозитный счет":
                     result = Deposit?.Close();
@@ -133,7 +133,7 @@ namespace HomeWork_26.Models
                     break;
 
             }
-            LogAction?.Invoke($"{DateTime.Now.ToShortDateString()} в {DateTime.Now.ToShortTimeString()} клиенту {ID} закрыт {TypeAccount}, выплачено {result} руб.");
+            LogAction?.Invoke($"{DateTime.Now.ToShortDateString()} в {DateTime.Now.ToShortTimeString()} клиенту {ID} закрыт {typeAccount}, выплачено {result} руб.");
             return $"К выплате {result} руб.";
         }
 

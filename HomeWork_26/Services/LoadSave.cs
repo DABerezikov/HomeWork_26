@@ -9,11 +9,11 @@ namespace HomeWork_26.Services
     {
         public static ObservableCollection<T> LoadDB(string Path)
         {
-            ObservableCollection<T> clients = new ObservableCollection<T>();
+            var clients = new ObservableCollection<T>();
 
             if (File.Exists(Path))
             {
-                JsonSerializerSettings settings = new JsonSerializerSettings
+                var settings = new JsonSerializerSettings
                 {
                     TypeNameHandling = TypeNameHandling.All
                 };
@@ -31,7 +31,7 @@ namespace HomeWork_26.Services
 
         public static void SaveDB(string Path, ObservableCollection<T> clients)
         {
-            JsonSerializerSettings settings = new JsonSerializerSettings
+            var settings = new JsonSerializerSettings
             {
                 TypeNameHandling = TypeNameHandling.All
 

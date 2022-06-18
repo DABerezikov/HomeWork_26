@@ -86,7 +86,9 @@ namespace HomeWork_26.Models
         /// <returns></returns>
         public string Close()
         {
-            return (Amount += Interest + TempInterest).ToString();
+            var r = Amount += Interest + TempInterest;
+            Amount = 0;
+            return r.ToString();
         }
 
         /// <summary>

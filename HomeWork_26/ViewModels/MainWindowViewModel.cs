@@ -78,7 +78,30 @@ namespace HomeWork_26.ViewModels
             get => _AmountClient;
             set => Set(ref _AmountClient, value);
         }
-        #endregion        
+        #endregion
+
+        #region DepositAmountClient : string - Сумма пополнения счета клиента
+        private Client _DepositAmountClient;
+
+        /// <summary>Сумма пополнения счета клиента</summary>
+        public double DepositAmountClient
+        {
+            get => _DepositAmountClient.Deposit.Amount;
+            set => Set(_DepositAmountClient.Deposit.Amount, value);
+        }
+        #endregion
+
+        #region NotDepositAmountClient : string - Сумма пополнения счета клиента
+       
+
+        /// <summary>Сумма пополнения счета клиента</summary>
+        public double NotDepositAmountClient
+        {
+            get => _DepositAmountClient.NotDeposit.Amount;
+            set => Set(_DepositAmountClient.NotDeposit.Amount, value);
+        }
+        #endregion    
+
 
         #region DBClients : ObservableCollection - База данных клиентов банка
         private ObservableCollection<Client> _DBClients;
@@ -90,7 +113,7 @@ namespace HomeWork_26.ViewModels
             set => Set(ref _DBClients, value);
         }
         #endregion
-
+        
         #region SelectedClient : int - Выбранный клиент банка
         private int _SelectedClient = -1;
 
@@ -119,7 +142,7 @@ namespace HomeWork_26.ViewModels
             NameClient = string.Empty;
             AmountClient = "0";
             TypeClient = string.Empty;
-            TypeAccount = "Deposit";
+            TypeAccount = "Депозитный счет";
         }
         #endregion
 
@@ -221,19 +244,21 @@ namespace HomeWork_26.ViewModels
         }
         private void OnCreateAccountClientCommandExecuted(object p)
         {
-            DBClients[SelectedClient].LogAction += LoadSave<Client>.Log;
-            DBClients[SelectedClient].OpenAccount(TypeAccount, double.Parse(AmountClient));
-            var e =  DBClients[SelectedClient];
+             _DepositAmountClient =  DBClients[SelectedClient];
+            _DepositAmountClient.LogAction += LoadSave<Client>.Log;
+            _DepositAmountClient.OpenAccount(TypeAccount);
+            DepositAmountClient = double.Parse(AmountClient);
+
+
             switch (TypeAccount)
             {
                 case "Депозитный счет":
-                    OnPropertyChanged(nameof(DBClients));
+                    OnPropertyChanged(nameof(SelectedClient));
                     break;
                 case "Недепозитный счет":
-                    OnPropertyChanged(nameof(DBClients));
+                    OnPropertyChanged(nameof(SelectedClient));
                     break;
-            }
-            OnPropertyChanged(nameof(e.Deposit.Amount));
+            }            
             LoadSave<Client>.SaveDB(Path, DBClients);
             Clear();
         }
@@ -254,6 +279,7 @@ namespace HomeWork_26.ViewModels
         {
             DBClients[SelectedClient].LogAction += LoadSave<Client>.Log;
             MessageBox.Show(DBClients[SelectedClient].CloseAccount(TypeAccount));
+            DBClients[SelectedClient].CloseAccount(TypeAccount);
             LoadSave<Client>.SaveDB(Path, DBClients);
             Clear();
         }

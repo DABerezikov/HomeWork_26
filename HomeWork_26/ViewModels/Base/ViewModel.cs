@@ -19,5 +19,13 @@ namespace HomeWork_26.ViewModels.Base
             OnPropertyChanged(PropertyName);
             return true; 
         }
+
+        protected virtual bool Set<T>(T field, T value, [CallerMemberName] string PropertyName = null)
+        {
+            if (Equals(field, value)) return false;
+            field = value;
+            OnPropertyChanged(PropertyName);
+            return true;
+        }
     }
 }

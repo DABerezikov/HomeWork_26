@@ -100,7 +100,7 @@ namespace HomeWork_26.Models
         {
             switch (TypeAccount)
             {
-                case "Deposit":
+                case "Депозитный счет":
                     Deposit = new Account(ID, DepositRate, Amount);
                     break;
                 default:
@@ -122,12 +122,14 @@ namespace HomeWork_26.Models
             string? result;
             switch (TypeAccount)
             {
-                case "Deposit":
+                case "Депозитный счет":
                     result = Deposit?.Close();
+                    Deposit = null;
                     break;
 
                 default:
                     result = NotDeposit?.Close();
+                    NotDeposit = null;
                     break;
 
             }

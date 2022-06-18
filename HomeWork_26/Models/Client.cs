@@ -100,7 +100,7 @@ namespace HomeWork_26.Models
         {
             switch (TypeAccount)
             {
-                case "Deposit":
+                case "Депозитный счет":
                     Deposit = new Account(ID, DepositRate, Amount);
                     break;
                 default:
@@ -122,7 +122,7 @@ namespace HomeWork_26.Models
             string? result;
             switch (TypeAccount)
             {
-                case "Deposit":
+                case "Депозитный счет":
                     result = Deposit?.Close();
                     break;
 
@@ -144,7 +144,7 @@ namespace HomeWork_26.Models
         {
             switch (TypeAccount)
             {
-                case "Deposit":
+                case "Депозитный счет":
                     Deposit?.Refill(SumRefill);
                     break;
 
@@ -159,7 +159,7 @@ namespace HomeWork_26.Models
         {
             switch (TypeAccountSender)
             {
-                case "Deposit":
+                case "Депозитный счет":
                     if (Deposit != null)
                     {
                         Account.TransferAccount(Deposit, Recipient, Amount);

@@ -1,5 +1,4 @@
-﻿using HomeWork_26.Models;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using System.Collections.ObjectModel;
 using System.IO;
 
@@ -7,11 +6,11 @@ namespace HomeWork_26.Services
 {
     internal static class LoadSave<T>
     {
-        public static ObservableCollection<T> LoadDB(string Path)
+        public static ObservableCollection<T> LoadDb(string path)
         {
             var clients = new ObservableCollection<T>();
 
-            if (File.Exists(Path))
+            if (File.Exists(path))
             {
                 var settings = new JsonSerializerSettings
                 {
@@ -19,7 +18,7 @@ namespace HomeWork_26.Services
                 };
 
 
-                using (StreamReader streamReader = new StreamReader(Path))
+                using (StreamReader streamReader = new StreamReader(path))
                 {
                     string text = streamReader.ReadToEnd();
                     clients = JsonConvert.DeserializeObject<ObservableCollection<T>>(text, settings);
@@ -29,7 +28,7 @@ namespace HomeWork_26.Services
             return clients;
         }
 
-        public static void SaveDB(string Path, ObservableCollection<T> clients)
+        public static void SaveDb(string path, ObservableCollection<T> clients)
         {
             var settings = new JsonSerializerSettings
             {
@@ -37,18 +36,18 @@ namespace HomeWork_26.Services
 
             };
 
-            using (StreamWriter streamWriter = new StreamWriter(Path))
+            using (StreamWriter streamWriter = new StreamWriter(path))
             {
                 string text = JsonConvert.SerializeObject(clients, Formatting.Indented, settings);
                 streamWriter.WriteLine(text);
             }
         }
 
-        public static void Log(string Text)
+        public static void Log(string text)
         {
             using (StreamWriter sr = new StreamWriter(@"log.txt", true))
             {
-                sr.WriteLine($"\n{Text}");
+                sr.WriteLine($"\n{text}");
             }
         }
     }

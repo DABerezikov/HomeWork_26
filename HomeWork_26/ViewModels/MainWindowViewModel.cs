@@ -4,6 +4,7 @@ using HomeWork_26.Services;
 using HomeWork_26.ViewModels.Base;
 using System;
 using System.Collections.ObjectModel;
+using System.Globalization;
 using System.Windows;
 using System.Windows.Input;
 
@@ -11,7 +12,7 @@ namespace HomeWork_26.ViewModels
 {
     internal class MainWindowViewModel : ViewModel
     {
-        static string Path = "_DB.json";
+        static readonly string _path = "_DB.json";
 
         #region Заголовок окна
 
@@ -59,7 +60,7 @@ namespace HomeWork_26.ViewModels
         #endregion
 
         #region TypeAccount : string - Тип счета клиента
-        private string _TypeAccount = "Deposit";
+        private string _TypeAccount = "Недепозитный счет";
 
         /// <summary>Тип счета клиента</summary>
         public string TypeAccount
@@ -81,56 +82,56 @@ namespace HomeWork_26.ViewModels
         #endregion
 
         #region DepositAmountClient : string - Сумма на депозитном счете клиента
-        private string _DepositAmountClient;
+        private string? _DepositAmountClient;
 
-        public string DepositAmountClient
+        public string? DepositAmountClient
         {
             get => _DepositAmountClient;
             set => Set(ref _DepositAmountClient, value);
         }
 
         /// <summary> Сумма на депозитном счете клиента</summary>
-        public string GetDepositAmountClient(int selectedClient)
+        public string? GetDepositAmountClient(int selectedClient)
         {
             if (selectedClient == -1)
             {
                 return "Нет счета";
             }
-            return DBClients?[selectedClient].Deposit!=null?DBClients[selectedClient].Deposit.Amount.ToString():"Нет счета";
+            return DbClients[selectedClient].Deposit!=null?DbClients[selectedClient].Deposit?.Amount.ToString(CultureInfo.InvariantCulture):"Нет счета";
         }
         #endregion
 
         #region NotDepositAmountClient : string - Сумма на недепозитном счете клиента
 
 
-        private string _NotDepositAmountClient;
+        private string? _NotDepositAmountClient;
 
-        public string NotDepositAmountClient
+        public string? NotDepositAmountClient
         {
             get => _NotDepositAmountClient;
             set => Set(ref _NotDepositAmountClient, GetNotDepositAmountClient(SelectedClient));
         }
 
         /// <summary> Сумма на депозитном счете клиента</summary>
-        public string GetNotDepositAmountClient(int selectedClient)
+        public string? GetNotDepositAmountClient(int selectedClient)
         {
             if (selectedClient == -1)
             {
                 return "Нет счета";
             }
-            return DBClients?[selectedClient].NotDeposit != null ? DBClients[selectedClient].NotDeposit.Amount.ToString() : "Нет счета";
+            return DbClients[selectedClient].NotDeposit != null ? DbClients[selectedClient].NotDeposit?.Amount.ToString(CultureInfo.InvariantCulture) : "Нет счета";
         }
         #endregion    
 
 
         #region DBClients : ObservableCollection - База данных клиентов банка
-        private ObservableCollection<Client> _DBClients;
+        private ObservableCollection<Client> _DbClients;
 
         /// <summary>База клиентов</summary>
-        public ObservableCollection<Client> DBClients
+        public ObservableCollection<Client> DbClients
         {
-            get => _DBClients;
-            set => Set(ref _DBClients, value);
+            get => _DbClients;
+            set => Set(ref _DbClients, value);
         }
         #endregion
         
@@ -207,16 +208,16 @@ namespace HomeWork_26.ViewModels
                     client = new EntityClient(NameClient, TypeAccount, double.Parse(AmountClient));
                     break;
                 case "VIP клиент банка":
-                    client = new VIPClient(NameClient, TypeAccount, double.Parse(AmountClient));
+                    client = new VipClient(NameClient, TypeAccount, double.Parse(AmountClient));
                     break;
                    
                 default:
                     client = new Client(NameClient, TypeAccount, double.Parse(AmountClient));
                     break;
             }
-            DBClients.Add(client);
+            DbClients.Add(client);
             
-            LoadSave<Client>.SaveDB(Path, DBClients);
+            LoadSave<Client>.SaveDb(_path, DbClients);
             Clear();
         }
         #endregion
@@ -237,7 +238,7 @@ namespace HomeWork_26.ViewModels
 
         private bool CanRemoveClientCommandExecute(object p)
         {
-            if (SelectedClient != -1 && DBClients[SelectedClient].Deposit==null && DBClients[SelectedClient].NotDeposit == null)
+            if (SelectedClient != -1 && DbClients[SelectedClient].Deposit==null && DbClients[SelectedClient].NotDeposit == null)
             {
                 return true;
             }
@@ -245,9 +246,9 @@ namespace HomeWork_26.ViewModels
         }
         private void OnRemoveClientCommandExecuted(object p)
         {
-            LoadSave<Client>.Log($"{DateTime.Now.ToShortDateString()} в {DateTime.Now.ToShortTimeString()} удален клиент {DBClients[SelectedClient].ID}");
-            DBClients.Remove(DBClients[SelectedClient]);
-            LoadSave<Client>.SaveDB(Path, DBClients);
+            LoadSave<Client>.Log($"{DateTime.Now.ToShortDateString()} в {DateTime.Now.ToShortTimeString()} удален клиент {DbClients[SelectedClient].Id}");
+            DbClients.Remove(DbClients[SelectedClient]);
+            LoadSave<Client>.SaveDb(_path, DbClients);
             Clear();
         }
         #endregion
@@ -257,18 +258,18 @@ namespace HomeWork_26.ViewModels
 
         private bool CanCreateAccountClientCommandExecute(object p)
         {
-            if (TypeAccount != string.Empty && SelectedClient != -1 && (DBClients[SelectedClient].Deposit == null || DBClients[SelectedClient].NotDeposit == null))
+            if (TypeAccount != string.Empty && SelectedClient != -1 && (DbClients[SelectedClient].Deposit == null || DbClients[SelectedClient].NotDeposit == null))
             {
                 switch (TypeAccount)
                 {
                     case "Депозитный счет":
-                        if (DBClients[SelectedClient].Deposit == null)
+                        if (DbClients[SelectedClient].Deposit == null)
                         {
                             return true;
                         }
                         break;
                     case "Недепозитный счет":
-                        if (DBClients[SelectedClient].NotDeposit == null)
+                        if (DbClients[SelectedClient].NotDeposit == null)
                         {
                             return true;
                         }
@@ -281,9 +282,9 @@ namespace HomeWork_26.ViewModels
         private void OnCreateAccountClientCommandExecuted(object p)
         {
             
-            DBClients[SelectedClient].LogAction += LoadSave<Client>.Log;
-            DBClients[SelectedClient].OpenAccount(TypeAccount, double.Parse(AmountClient));            
-            LoadSave<Client>.SaveDB(Path, DBClients);
+            DbClients[SelectedClient].LogAction += LoadSave<Client>.Log;
+            DbClients[SelectedClient].OpenAccount(TypeAccount, double.Parse(AmountClient));            
+            LoadSave<Client>.SaveDb(_path, DbClients);
             Clear();
         }
         #endregion
@@ -293,7 +294,7 @@ namespace HomeWork_26.ViewModels
 
         private bool CanCloseAccountClientCommandExecute(object p)
         {
-            if (SelectedClient != -1 && DBClients[SelectedClient].Deposit != null | DBClients[SelectedClient].NotDeposit != null)
+            if (SelectedClient != -1 && DbClients[SelectedClient].Deposit != null | DbClients[SelectedClient].NotDeposit != null)
             {
                 return true;
             }
@@ -301,10 +302,10 @@ namespace HomeWork_26.ViewModels
         }
         private void OnCloseAccountClientCommandExecuted(object p)
         {
-            DBClients[SelectedClient].LogAction += LoadSave<Client>.Log;
-            MessageBox.Show(DBClients[SelectedClient].CloseAccount(TypeAccount));
-            DBClients[SelectedClient].CloseAccount(TypeAccount);
-            LoadSave<Client>.SaveDB(Path, DBClients);
+            DbClients[SelectedClient].LogAction += LoadSave<Client>.Log;
+            MessageBox.Show(DbClients[SelectedClient].CloseAccount(TypeAccount));
+            DbClients[SelectedClient].CloseAccount(TypeAccount);
+            LoadSave<Client>.SaveDb(_path, DbClients);
             Clear();
         }
         #endregion
@@ -326,7 +327,7 @@ namespace HomeWork_26.ViewModels
 
             #region Данные
 
-            DBClients = LoadSave<Client>.LoadDB(Path);
+            DbClients = LoadSave<Client>.LoadDb(_path);
             
 
             #endregion

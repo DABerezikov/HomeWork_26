@@ -1,6 +1,4 @@
 ﻿using HomeWork_26.Infrastructure.Commands.Base;
-using HomeWork_26.Models;
-using HomeWork_26.Services;
 using System;
 
 namespace HomeWork_26.Infrastructure.Commands
@@ -10,11 +8,11 @@ namespace HomeWork_26.Infrastructure.Commands
         private readonly Action<object> _Execute;
         private readonly Func<object, bool> _CanExecute;
 
-        public LambdaCommand(Action<object> Execute, Func<object, bool> CanExecute = null)
+        public LambdaCommand(Action<object> execute, Func<object, bool> canExecute = null)
         {
             
-            _Execute = Execute ?? throw new ArgumentException(nameof(Execute));
-            _CanExecute = CanExecute;            
+            _Execute = execute ?? throw new ArgumentException(nameof(execute));
+            _CanExecute = canExecute;            
         }
 
         public override bool CanExecute(object? parameter) => _CanExecute?.Invoke(parameter) ?? true;

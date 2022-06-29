@@ -8,11 +8,11 @@ namespace HomeWork_26.Models
         {
 
         }
-        public Account(uint ID, uint DepositRate, double Amount)
+        public Account(uint id, uint depositRate, double amount)
         {
-            ClientID = ID;
-            ClientDepositRate = DepositRate;
-            amount = Amount;
+            ClientId = id;
+            ClientDepositRate = depositRate;
+            this.amount = amount;
             openDate = DateTime.Now.ToShortDateString();
         }
         /// <summary>
@@ -26,7 +26,7 @@ namespace HomeWork_26.Models
         /// <summary>
         /// Индивидуальный номер клиента
         /// </summary>
-        public uint ClientID { get; set; }
+        public uint ClientId { get; set; }
 
         /// <summary>
         /// Процентная ставка по счету клиента
@@ -94,35 +94,35 @@ namespace HomeWork_26.Models
         /// <summary>
         /// Метод пополнения счета
         /// </summary>
-        /// <param name="SumRefill">Сумма пополнения</param>
-        public void Refill(double SumRefill)
+        /// <param name="sumRefill">Сумма пополнения</param>
+        public void Refill(double sumRefill)
         {
             TempInterest += Interest;                          // Сохранение текущих процентов
-            Amount += SumRefill;                               // Увеличение суммы на счете на величину пополнения и количества процентов на данный момент            
+            Amount += sumRefill;                               // Увеличение суммы на счете на величину пополнения и количества процентов на данный момент            
             RefillDate = DateTime.Now.ToShortDateString();     // Установление даты пополнения счета для дальнейшего расчета процентов 
         }
 
         /// <summary>
         /// Метод для перевода со счета
         /// </summary>
-        /// <param name="Transfer">Сумма перевода</param>
-        private void Transfer(double Transfer)
+        /// <param name="transfer">Сумма перевода</param>
+        private void Transfer(double transfer)
         {
             TempInterest += Interest;                          // Сохранение текущих процентов
-            Amount -= Transfer;                                // Уменьшение суммы на счете на величину перевода            
+            Amount -= transfer;                                // Уменьшение суммы на счете на величину перевода            
             RefillDate = DateTime.Now.ToShortDateString();     // Установление даты пополнения счета для дальнейшего расчета процентов             
         }
 
         /// <summary>
         /// Метод для перевода между счетами
         /// </summary>
-        /// <param name="Sender">Счет отправитель</param>
-        /// <param name="Recipient">Счет получатель</param>
-        /// <param name="Amount">Сумма перевода</param>
-        public static void TransferAccount(Account Sender, Account Recipient, double Amount)
+        /// <param name="sender">Счет отправитель</param>
+        /// <param name="recipient">Счет получатель</param>
+        /// <param name="amount">Сумма перевода</param>
+        public static void TransferAccount(Account sender, Account recipient, double amount)
         {
-            Sender.Transfer(Amount);
-            Recipient.Refill(Amount);
+            sender.Transfer(amount);
+            recipient.Refill(amount);
 
         }
     }

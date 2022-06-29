@@ -12,7 +12,7 @@ namespace HomeWork_26.Models
         public Client()
         {
             name = default;
-            ID = default;
+            Id = default;
             depositRate = default;
             deposit = null;
             notDeposit = null;
@@ -21,12 +21,12 @@ namespace HomeWork_26.Models
         /// <summary>
         /// Конструктор для создания клиента
         /// </summary>
-        /// <param name="Name">Имя клиента</param>
-        public Client(string Name)
+        /// <param name="name">Имя клиента</param>
+        public Client(string name)
         {
             this.LogAction += LoadSave<Client>.Log;
-            name = Name;
-            ID = GetID();
+            this.name = name;
+            Id = GetId();
             depositRate = 3;
             deposit = null;
             notDeposit = null;
@@ -35,22 +35,22 @@ namespace HomeWork_26.Models
         /// <summary>
         /// Конструктор для создания клиента и открытия счета
         /// </summary>
-        /// <param name="Name">Имя клиента</param>
-        /// <param name="TapeAccount">Тип счета</param>
-        public Client(string Name, string TapeAccount) : this(Name)
+        /// <param name="name">Имя клиента</param>
+        /// <param name="tapeAccount">Тип счета</param>
+        public Client(string name, string tapeAccount) : this(name)
         {
-            OpenAccount(TapeAccount);
+            OpenAccount(tapeAccount);
         }
 
         /// <summary>
         /// Конструктор для создания клиента, открытия и пополнения счета
         /// </summary>
-        /// <param name="Name">Имя клиента</param>
-        /// <param name="TapeAccount">Тип счета</param>
-        /// <param name="Amount">Сумма пополнения</param>
-        public Client(string Name, string TapeAccount, double Amount) : this(Name)
+        /// <param name="name">Имя клиента</param>
+        /// <param name="tapeAccount">Тип счета</param>
+        /// <param name="amount">Сумма пополнения</param>
+        public Client(string name, string tapeAccount, double amount) : this(name)
         {
-            OpenAccount(TapeAccount, Amount);
+            OpenAccount(tapeAccount, amount);
         }
 
         /// <summary>
@@ -65,12 +65,12 @@ namespace HomeWork_26.Models
         /// <summary>
         /// Имя клиента
         /// </summary>
-        public string Name { get => name; set => name = value; }
+        public string? Name { get => name; set => name = value; }
 
         /// <summary>
         /// Уникальный номер клиента
         /// </summary>
-        public uint ID { get => id; set => id = value; }
+        public uint Id { get => id; set => id = value; }
 
         /// <summary>
         /// Процентная ставка для клиента
@@ -87,27 +87,27 @@ namespace HomeWork_26.Models
         /// </summary>
         public Account? NotDeposit { get => notDeposit; set => notDeposit = value; }
 
-        public event Action<string> LogAction;
+        public event Action<string>? LogAction;
 
 
 
         /// <summary>
         /// Метод для открытия счета клиента и его пополнения
         /// </summary>
-        /// <param name="TypeAccount">Тип счета</param>
-        /// <param name="Ammount">Сумма пополнения</param>
-        public void OpenAccount(string TypeAccount, double Amount = 0)
+        /// <param name="typeAccount">Тип счета</param>
+        /// <param name="amount">Сумма пополнения</param>
+        public void OpenAccount(string typeAccount, double amount = 0)
         {
-            switch (TypeAccount)
+            switch (typeAccount)
             {
                 case "Депозитный счет":
-                    Deposit = new Account(ID, DepositRate, Amount);
+                    Deposit = new Account(Id, DepositRate, amount);
                     break;
                 default:
-                    NotDeposit = new Account(ID, DepositRate, Amount);
+                    NotDeposit = new Account(Id, DepositRate, amount);
                     break;
             }
-            LogAction?.Invoke($"{DateTime.Now.ToShortDateString()} в {DateTime.Now.ToShortTimeString()} клиенту {ID} открыт {TypeAccount} на сумму {Amount} руб.");
+            LogAction?.Invoke($"{DateTime.Now.ToShortDateString()} в {DateTime.Now.ToShortTimeString()} клиенту {Id} открыт {typeAccount} на сумму {amount} руб.");
         }
 
 
@@ -116,7 +116,7 @@ namespace HomeWork_26.Models
         /// </summary>
         /// <param name="typeAccount">Тип счета</param>
         /// <returns></returns>
-        public string? CloseAccount(string typeAccount)
+        public string CloseAccount(string typeAccount)
         {
 
             string? result;
@@ -133,51 +133,51 @@ namespace HomeWork_26.Models
                     break;
 
             }
-            LogAction?.Invoke($"{DateTime.Now.ToShortDateString()} в {DateTime.Now.ToShortTimeString()} клиенту {ID} закрыт {typeAccount}, выплачено {result} руб.");
+            LogAction?.Invoke($"{DateTime.Now.ToShortDateString()} в {DateTime.Now.ToShortTimeString()} клиенту {Id} закрыт {typeAccount}, выплачено {result} руб.");
             return $"К выплате {result} руб.";
         }
 
         /// <summary>
         /// Метод для пополнения счета
         /// </summary>
-        /// <param name="TypeAccount">Тип счета</param>
-        /// <param name="SumRefill">Сумма пополнения</param>
-        public void RefillAccount(string TypeAccount, double SumRefill)
+        /// <param name="typeAccount">Тип счета</param>
+        /// <param name="sumRefill">Сумма пополнения</param>
+        public void RefillAccount(string typeAccount, double sumRefill)
         {
-            switch (TypeAccount)
+            switch (typeAccount)
             {
                 case "Депозитный счет":
-                    Deposit?.Refill(SumRefill);
+                    Deposit?.Refill(sumRefill);
                     break;
 
                 default:
-                    NotDeposit?.Refill(SumRefill);
+                    NotDeposit?.Refill(sumRefill);
                     break;
 
             }
-            LogAction?.Invoke($"{DateTime.Now.ToShortDateString()} в {DateTime.Now.ToShortTimeString()} клиенту {ID} пополнен {TypeAccount} на сумму {SumRefill} руб.");
+            LogAction?.Invoke($"{DateTime.Now.ToShortDateString()} в {DateTime.Now.ToShortTimeString()} клиенту {Id} пополнен {typeAccount} на сумму {sumRefill} руб.");
         }
-        public void Transfer(string TypeAccountSender, Account Recipient, double Amount)
+        public void Transfer(string typeAccountSender, Account recipient, double amount)
         {
-            switch (TypeAccountSender)
+            switch (typeAccountSender)
             {
                 case "Депозитный счет":
                     if (Deposit != null)
                     {
-                        Account.TransferAccount(Deposit, Recipient, Amount);
+                        Account.TransferAccount(Deposit, recipient, amount);
                     }
                     break;
 
                 default:
                     if (NotDeposit != null)
                     {
-                        Account.TransferAccount(NotDeposit, Recipient, Amount);
+                        Account.TransferAccount(NotDeposit, recipient, amount);
                     }
                     break;
 
             }
-            LogAction?.Invoke($"{DateTime.Now.ToShortDateString()} в {DateTime.Now.ToShortTimeString()} клиент {ID} перевел c {TypeAccountSender} на счет {Recipient}" +
-                $" клиента {Recipient.ClientID} сумму {Amount} руб.");
+            LogAction?.Invoke($"{DateTime.Now.ToShortDateString()} в {DateTime.Now.ToShortTimeString()} клиент {Id} перевел c {typeAccountSender} на счет {recipient}" +
+                $" клиента {recipient.ClientId} сумму {amount} руб.");
 
         }
 
@@ -185,17 +185,17 @@ namespace HomeWork_26.Models
         /// Метод для генерации нового ID клиента
         /// </summary>
         /// <returns></returns>
-        private uint GetID()
+        private uint GetId()
         {
-            uint id = 202200;
+            uint getId = 202200;
             if (File.Exists("_id.txt"))
             {
-                id = uint.Parse(File.ReadAllText("_id.txt"));
+                getId = uint.Parse(File.ReadAllText("_id.txt"));
             }
-            id++;
-            File.WriteAllText("_id.txt", id.ToString());
-            LogAction?.Invoke($"{DateTime.Now.ToShortDateString()} в {DateTime.Now.ToShortTimeString()} создан клиент {id}");
-            return id;
+            getId++;
+            File.WriteAllText("_id.txt", getId.ToString());
+            LogAction?.Invoke($"{DateTime.Now.ToShortDateString()} в {DateTime.Now.ToShortTimeString()} создан клиент {getId}");
+            return getId;
         }
 
     }
@@ -205,31 +205,31 @@ namespace HomeWork_26.Models
         {
 
         }
-        public EntityClient(string Name) : base(Name)
+        public EntityClient(string name) : base(name)
         {
             DepositRate = 6;
         }
 
-        public EntityClient(string Name, string TapeAccount) : base(Name, TapeAccount) { DepositRate = 6; }
+        public EntityClient(string name, string tapeAccount) : base(name, tapeAccount) { DepositRate = 6; }
 
-        public EntityClient(string Name, string TapeAccount, double Amount) : base(Name, TapeAccount, Amount) { DepositRate = 6; }
+        public EntityClient(string name, string tapeAccount, double amount) : base(name, tapeAccount, amount) { DepositRate = 6; }
 
     }
 
-    internal class VIPClient : Client
+    internal class VipClient : Client
     {
-        public VIPClient() : base()
+        public VipClient() : base()
         {
 
         }
-        public VIPClient(string Name) : base(Name)
+        public VipClient(string name) : base(name)
         {
             DepositRate = 12;
 
         }
 
-        public VIPClient(string Name, string TapeAccount) : base(Name, TapeAccount) { DepositRate = 12; }
+        public VipClient(string name, string tapeAccount) : base(name, tapeAccount) { DepositRate = 12; }
 
-        public VIPClient(string Name, string TapeAccount, double Amount) : base(Name, TapeAccount, Amount) { DepositRate = 12; }
+        public VipClient(string name, string tapeAccount, double amount) : base(name, tapeAccount, amount) { DepositRate = 12; }
     }
 }

@@ -4,7 +4,6 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:fa="http://schemas.fontawesome.com/icons/"
-        xmlns:l="clr-namespace:HomeWork_26"
         xmlns:vm="clr-namespace:HomeWork_26.ViewModels"        
         mc:Ignorable="d"
         Title="{Binding Path= Title}"
@@ -47,9 +46,9 @@
                         <ColumnDefinition Width="Auto" MinWidth="400"/>                        
                     </Grid.ColumnDefinitions>
 
-                    <DataGrid Grid.Row="0" ItemsSource="{Binding DBClients}" SelectedIndex="{Binding SelectedClient}"  AutoGenerateColumns="False" IsReadOnly="True" Margin="0,0,0,0">
+                    <DataGrid Grid.Row="0" ItemsSource="{Binding DbClients}" SelectedIndex="{Binding SelectedClient}"  AutoGenerateColumns="False" IsReadOnly="True" Margin="0,0,0,0">
                         <DataGrid.Columns>
-                            <DataGridTextColumn Header="ID клиента" Binding="{Binding ID}"></DataGridTextColumn>
+                            <DataGridTextColumn Header="ID клиента" Binding="{Binding Id}"></DataGridTextColumn>
                             <DataGridTextColumn Header="Имя клиента" Binding="{Binding Name}" ></DataGridTextColumn>
                             <!--<DataGridTextColumn Header="Депозит"   Binding="{Binding Deposit.Amount}"></DataGridTextColumn>
                             <DataGridTextColumn Header="Недепозит" Binding="{Binding NotDeposit.Amount}"></DataGridTextColumn>-->
@@ -59,7 +58,7 @@
                     <DockPanel Grid.Column="0" Grid.Row="0"  Margin="0,0,0,0" />
                     <GridSplitter Grid.Column="1"  Grid.Row="0"  Width="3" 
                                     HorizontalAlignment="Left" VerticalAlignment="Stretch" />
-                    <GridSplitter Grid.Row="1" Grid.ColumnSpan="3" Height="3"
+                    <GridSplitter Grid.Row="1" Grid.ColumnSpan="3" Grid.Column="0" Height="3"
                                     HorizontalAlignment="Stretch" VerticalAlignment="Top" />
                     
                     <DockPanel Grid.Column="0" Grid.Row="1" LastChildFill="False" Margin="0,0,0,0" Grid.RowSpan="2"/>

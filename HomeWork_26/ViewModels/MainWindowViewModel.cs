@@ -312,7 +312,7 @@ namespace HomeWork_26.ViewModels
 
         #endregion
 
-        public MainWindowViewModel()
+        public MainWindowViewModel(string nameClient, string logText)
         {
             
 

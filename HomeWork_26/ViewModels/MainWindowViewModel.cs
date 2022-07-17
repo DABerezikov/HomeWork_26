@@ -166,11 +166,17 @@ namespace HomeWork_26.ViewModels
 
             } 
         }
+
+        private void GetLogText(string text)
+        {
+            LogText = text;
+        }
         #endregion
 
         #region Clear : void - Очистка полей
         private void Clear()
         {
+            
             NameClient = string.Empty;
             AmountClient = "0";
             TypeClient = string.Empty;
@@ -276,6 +282,7 @@ namespace HomeWork_26.ViewModels
             if (DbClients != null)
             {
                 DbClients[SelectedClient].LogAction += LoadSave<Client>.Log;
+                DbClients[SelectedClient].LogAction += GetLogText;
                 DbClients[SelectedClient].OpenAccount(TypeAccount, double.Parse(AmountClient));
                 LoadSave<Client>.SaveDb(Path, DbClients);
             }
@@ -296,6 +303,7 @@ namespace HomeWork_26.ViewModels
             if (DbClients != null)
             {
                 DbClients[SelectedClient].LogAction += LoadSave<Client>.Log;
+                DbClients[SelectedClient].LogAction += GetLogText;
                 MessageBox.Show(DbClients[SelectedClient].CloseAccount(TypeAccount));
                 DbClients[SelectedClient].CloseAccount(TypeAccount);
                 LoadSave<Client>.SaveDb(Path, DbClients);

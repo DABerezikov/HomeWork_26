@@ -191,30 +191,16 @@ namespace HomeWork_26.ViewModels
 
         private bool CanCreateClientCommandExecute(object p)
         {
-            if (NameClient!="" && TypeClient!=string.Empty)
-            {
-                return true;
-            }
-            return false;
+            return NameClient!="" && TypeClient!=string.Empty;
         }
         private void OnCreateClientCommandExecuted(object p)
         {
-
-            Client client;
-            
-            switch (TypeClient)
+            var client = TypeClient switch
             {
-                case "Юридическое лицо":
-                    client = new EntityClient(NameClient, TypeAccount, double.Parse(AmountClient));
-                    break;
-                case "VIP клиент банка":
-                    client = new VipClient(NameClient, TypeAccount, double.Parse(AmountClient));
-                    break;
-                   
-                default:
-                    client = new Client(NameClient, TypeAccount, double.Parse(AmountClient));
-                    break;
-            }
+                "Юридическое лицо" => new EntityClient(NameClient, TypeAccount, double.Parse(AmountClient)),
+                "VIP клиент банка" => new VipClient(NameClient, TypeAccount, double.Parse(AmountClient)),
+                _ => new Client(NameClient, TypeAccount, double.Parse(AmountClient))
+            };
             DbClients?.Add(client);
             
             LoadSave<Client>.SaveDb(Path, DbClients);

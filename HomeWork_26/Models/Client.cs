@@ -9,27 +9,27 @@ namespace HomeWork_26.Models
         /// <summary>
         /// Конструктор по умолчанию
         /// </summary>
-        public Client()
+        protected Client()
         {
             name = default;
             Id = default;
-            depositRate = default;
-            deposit = null;
-            notDeposit = null;
+            DepositRate = default;
+            Deposit = null;
+            NotDeposit = null;
         }
 
         /// <summary>
         /// Конструктор для создания клиента
         /// </summary>
         /// <param name="name">Имя клиента</param>
-        public Client(string name)
+        protected Client(string name)
         {
-            this.LogAction += LoadSave<Client>.Log;
+            LogAction += LoadSave<Client>.Log;
             this.name = name;
             Id = GetId();
-            depositRate = 3;
-            deposit = null;
-            notDeposit = null;
+            DepositRate = 3;
+            Deposit = null;
+            NotDeposit = null;
 
         }
         /// <summary>
@@ -37,7 +37,7 @@ namespace HomeWork_26.Models
         /// </summary>
         /// <param name="name">Имя клиента</param>
         /// <param name="tapeAccount">Тип счета</param>
-        public Client(string name, string tapeAccount) : this(name)
+        protected Client(string name, string tapeAccount) : this(name)
         {
             OpenAccount(tapeAccount);
         }
@@ -57,10 +57,6 @@ namespace HomeWork_26.Models
         /// Используемые поля
         /// </summary>
         private string? name;
-        private uint id;
-        private uint depositRate;
-        private Account? deposit;
-        private Account? notDeposit;
 
         /// <summary>
         /// Имя клиента
@@ -70,22 +66,22 @@ namespace HomeWork_26.Models
         /// <summary>
         /// Уникальный номер клиента
         /// </summary>
-        public uint Id { get => id; set => id = value; }
+        public uint Id { get; set; }
 
         /// <summary>
         /// Процентная ставка для клиента
         /// </summary>
-        public uint DepositRate { get => depositRate; set => depositRate = value; }
+        protected uint DepositRate { get; set; }
 
         /// <summary>
         /// Депозитный счет клиента
         /// </summary>
-        public Account? Deposit { get => deposit; set => deposit = value; }
+        public Account? Deposit { get; private set; }
 
         /// <summary>
         /// Недепозитный счет клиента
         /// </summary>
-        public Account? NotDeposit { get => notDeposit; set => notDeposit = value; }
+        public Account? NotDeposit { get; private set; }
 
         public event Action<string>? LogAction;
 
@@ -220,7 +216,7 @@ namespace HomeWork_26.Models
     {
         public VipClient() : base()
         {
-
+            
         }
         public VipClient(string name) : base(name)
         {

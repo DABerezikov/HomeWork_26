@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 
 namespace HomeWork_26.Models
 {
@@ -12,58 +13,53 @@ namespace HomeWork_26.Models
         {
             ClientId = id;
             ClientDepositRate = depositRate;
-            this.amount = amount;
-            openDate = DateTime.Now.ToShortDateString();
+            this.Amount = amount;
+            OpenDate = DateTime.Now.ToShortDateString();
         }
-        /// <summary>
-        /// Используемые поля счета
-        /// </summary>
-        private double amount;
-        private string openDate;
+
         private double interest;
-        private string refillDate;
 
         /// <summary>
         /// Индивидуальный номер клиента
         /// </summary>
-        public uint ClientId { get; set; }
+        public uint ClientId { get; }
 
         /// <summary>
         /// Процентная ставка по счету клиента
         /// </summary>
-        public uint ClientDepositRate { get; set; }
+        private uint ClientDepositRate { get; }
 
         /// <summary>
         /// Хранение накопленных процентов
         /// </summary>
-        public double TempInterest { get; set; }
+        private double TempInterest { get; set; }
 
         /// <summary>
         /// Сумма на счете
         /// </summary>
-        public double Amount { get => amount; set => amount = value; }
+        public double Amount { get; private set; }
 
         /// <summary>
         /// Дата открытия счета
         /// </summary>
-        public string OpenDate { get => openDate; set => openDate = value; }
+        private string OpenDate { get; }
 
         /// <summary>
         /// Процент по счету
         /// </summary>
-        public double Interest
+        private double Interest
         {
             get
             {
                 double year;
                 if (RefillDate == null)
                 {
-                    year = (DateTime.Now - DateTime.Parse(openDate)).Days / 365.25;
+                    year = (DateTime.Now - DateTime.Parse(OpenDate)).Days / 365.25;
 
                 }
                 else
                 {
-                    year = (DateTime.Now - DateTime.Parse(refillDate)).Days / 365.25;
+                    year = (DateTime.Now - DateTime.Parse(RefillDate)).Days / 365.25;
 
                 }
                 Interest = Amount * year * ClientDepositRate / 100;
@@ -71,14 +67,13 @@ namespace HomeWork_26.Models
                 return Math.Round(interest, 2);
 
             }
-            set { interest = value; }
-
+            set => interest = value;
         }
 
         /// <summary>
         /// Дата пополнения счета
         /// </summary>
-        public string RefillDate { get => refillDate; set => refillDate = value; }
+        private string RefillDate { get; set; }
 
         /// <summary>
         /// Метод для закрытия счета
@@ -88,7 +83,7 @@ namespace HomeWork_26.Models
         {
             var r = Amount += Interest + TempInterest;
             Amount = 0;
-            return r.ToString();
+            return r.ToString(CultureInfo.CurrentCulture);
         }
 
         /// <summary>

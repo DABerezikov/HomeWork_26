@@ -159,7 +159,12 @@ namespace HomeWork_26.ViewModels
         public string LogText
         {
             get => _LogText;
-            set => Set(ref _LogText, value);
+            set
+            {
+                Set(ref _LogText, value);
+                Status = LogText;
+
+            } 
         }
         #endregion
 
@@ -228,9 +233,15 @@ namespace HomeWork_26.ViewModels
         }
         private void OnRemoveClientCommandExecuted(object p)
         {
-            LoadSave<Client>.Log($"{DateTime.Now.ToShortDateString()} в {DateTime.Now.ToShortTimeString()} удален клиент {DbClients[SelectedClient].Id}");
-            DbClients.Remove(DbClients[SelectedClient]);
-            LoadSave<Client>.SaveDb(Path, DbClients);
+            if (DbClients != null)
+            {
+                LogText =
+                    $"{DateTime.Now.ToShortDateString()} в {DateTime.Now.ToShortTimeString()} удален клиент {DbClients[SelectedClient].Id}";
+                LoadSave<Client>.Log(LogText);
+                DbClients.Remove(DbClients[SelectedClient]);
+                LoadSave<Client>.SaveDb(Path, DbClients);
+            }
+
             Clear();
         }
         #endregion

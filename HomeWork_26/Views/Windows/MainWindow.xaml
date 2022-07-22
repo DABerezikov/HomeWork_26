@@ -35,7 +35,7 @@
                 </TabItem.Header>
 
                 <Grid>
-                       <Grid.RowDefinitions>
+                    <Grid.RowDefinitions>
                         <RowDefinition/>
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="200"/>
@@ -43,7 +43,7 @@
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="160" MinWidth="160"/>
                         <ColumnDefinition Width="Auto"/>
-                        <ColumnDefinition Width="Auto" MinWidth="400"/>                        
+                        <ColumnDefinition Width="Auto" MinWidth="400"/>
                     </Grid.ColumnDefinitions>
 
                     <DataGrid Grid.Row="0" ItemsSource="{Binding DbClients}"
@@ -64,7 +64,7 @@
                                     HorizontalAlignment="Left" VerticalAlignment="Stretch" />
                     <GridSplitter Grid.Row="1" Grid.ColumnSpan="3" Grid.Column="0" Height="3"
                                     HorizontalAlignment="Stretch" VerticalAlignment="Top" />
-                    
+
                     <DockPanel Grid.Column="0" Grid.Row="1" LastChildFill="False" Margin="0,0,0,0" Grid.RowSpan="2"/>
                     <TextBlock Width="150"
                                HorizontalAlignment="Left"
@@ -102,7 +102,7 @@
                              Grid.Row="2"
                              Margin="10,120,0,0"
                              Text="{Binding NotDepositAmountClient}"/>
-                    
+
                     <TextBlock Width="150"
                                HorizontalAlignment="Left"
                                VerticalAlignment="Top"
@@ -227,6 +227,17 @@
                             HorizontalContentAlignment="Center" 
                             Content="Закрыть счет"
                             Command="{Binding CloseAccountClientCommand}"/>
+                    <Button Width="150"
+                            Height="30"
+                            Margin="340,60,0,0"
+                            Grid.Row="2"
+                            Grid.Column="2"
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Top"
+                            VerticalContentAlignment="Center"
+                            HorizontalContentAlignment="Center" 
+                            Content="Пополнить счет"
+                            Command="{Binding RefillAccountClientCommand}"/>
 
                 </Grid>
             </TabItem>

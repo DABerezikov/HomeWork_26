@@ -92,7 +92,7 @@ namespace HomeWork_26.Models
         /// </summary>
         /// <param name="typeAccount">Тип счета</param>
         /// <param name="amount">Сумма пополнения</param>
-        public void OpenAccount(string typeAccount, double amount = 0)
+        public void OpenAccount(string typeAccount = "Недепозитный счет", double amount = 0)
         {
             switch (typeAccount)
             {

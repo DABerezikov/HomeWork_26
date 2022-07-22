@@ -60,7 +60,7 @@ namespace HomeWork_26.ViewModels
         #endregion
 
         #region TypeAccount : string - Тип счета клиента
-        private string _TypeAccount = "Недепозитный счет";
+        private string _TypeAccount = string.Empty;
 
         /// <summary>Тип счета клиента</summary>
         public string TypeAccount
@@ -313,7 +313,44 @@ namespace HomeWork_26.ViewModels
         }
         #endregion
 
-       
+        #region RefillAccountClientCommand
+        public ICommand RefillAccountClientCommand { get; }
+
+        private bool CanRefillAccountClientCommandExecute(object p)
+        {
+            if (TypeAccount == string.Empty || SelectedClient == -1 || (DbClients?[SelectedClient].Deposit == null &&
+                                                                        DbClients?[SelectedClient].NotDeposit == null))
+                return false;
+            switch (TypeAccount)
+            {
+                case "Депозитный счет":
+                    if (DbClients?[SelectedClient].Deposit != null)
+                    {
+                        return true;
+                    }
+                    break;
+                case "Недепозитный счет":
+                    if (DbClients?[SelectedClient].NotDeposit != null)
+                    {
+                        return true;
+                    }
+                    break;
+            }
+            return false;
+        }
+        private void OnRefillAccountClientCommandExecuted(object p)
+        {
+            if (DbClients != null)
+            {
+                DbClients[SelectedClient].LogAction += LoadSave<Client>.Log;
+                DbClients[SelectedClient].LogAction += GetLogText;
+                DbClients[SelectedClient].RefillAccount(TypeAccount, double.Parse(AmountClient));
+                LoadSave<Client>.SaveDb(Path, DbClients);
+            }
+
+            Clear();
+        }
+        #endregion
 
         #endregion
 
@@ -328,6 +365,7 @@ namespace HomeWork_26.ViewModels
             RemoveClientCommand = new LambdaCommand(OnRemoveClientCommandExecuted, CanRemoveClientCommandExecute);
             CreateAccountClientCommand = new LambdaCommand(OnCreateAccountClientCommandExecuted, CanCreateAccountClientCommandExecute);
             CloseAccountClientCommand = new LambdaCommand(OnCloseAccountClientCommandExecuted, CanCloseAccountClientCommandExecute);
+            RefillAccountClientCommand = new LambdaCommand(OnRefillAccountClientCommandExecuted, CanRefillAccountClientCommandExecute);
             #endregion
 
             #region Данные
